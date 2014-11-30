@@ -17,6 +17,7 @@
 #include "lcd.h"
 #include "graphics.h"
 #include "text.h"
+#include "shape.h"
 
 
 void init_devices(void* p);
@@ -33,6 +34,8 @@ typedef struct {
     TaskHandle_t th;
 }clock_widget_t;
 
+logger_t mainlog;
+
 
 clock_widget_t* create_clock(colour_t bg_colour, colour_t txt_colour, bool filled, point_t size, point_t location)
 {
@@ -40,6 +43,8 @@ clock_widget_t* create_clock(colour_t bg_colour, colour_t txt_colour, bool fille
 
     if(clock)
     {
+        log_info(&mainlog, "initializing clock");
+
         clock->background.type = SQUARE;                ///< defines the type of shape
         clock->background.fill_colour = bg_colour;      ///< the colour of the shape
         clock->background.border_colour = bg_colour;    ///< the colour of the shape border
@@ -66,15 +71,18 @@ clock_widget_t* create_clock(colour_t bg_colour, colour_t txt_colour, bool fille
 
         if(xTaskCreate(clock_task, "clock", configMINIMAL_STACK_SIZE + 64, clock, tskIDLE_PRIORITY + 1, &clock->th) == pdPASS)
         {
-            printf("started clock task\n");
+            log_info(&mainlog, "started clock task");
             draw_textbox(&clock->text, clock->location);
         }
         else
         {
+            log_info(&mainlog, "error starting clock task");
             free(clock);
             clock = NULL;
         }
     }
+    else
+        log_info(&mainlog, "error initializing clock");
 
     return clock;
 }
@@ -88,15 +96,15 @@ void clock_task(void* task_params)
 
     for(;;)
     {
+        text_blank_text(&clock->text, clock->location);
         t = time(NULL);
         lt = localtime(&t);
         strftime(clock->buffer, sizeof(clock->buffer), "%H:%M:%S", lt);
         text_update_text(&clock->text, clock->buffer, clock->location);
 
-        printf("%s\n", clock->buffer);
+        log_info(&mainlog, clock->buffer);
 
         sleep(1);
-        text_blank_text(&clock->text, clock->location);
     }
 }
 
@@ -104,6 +112,8 @@ void clock_task(void* task_params)
 void init_devices(void* p)
 {
 	(void)p;
+
+	log_init(&mainlog, "main");
 
 	// init lcd
 	lcd_init();
@@ -123,8 +133,6 @@ int main(void)
 	init_devices_task();
 
 	vTaskStartScheduler();
-
-	printf("Error: Scheduler Exited\n");
 
 	return 0;
 }

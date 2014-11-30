@@ -1,11 +1,7 @@
 file-io-demo
 ===========
 
-Demonstrates posix like IO. The demo targets the HY-STM32_100P development board, as it supports sdio. 
-
-Video of the HY-STM32_100P: http://www.youtube.com/watch?v=sqg3AJ9PEVg
-
-Any stm32f1 or stm32f4 board with SDIO and a console USART support would work.
+Demonstrates posix like devive IO.
 
 the demo:
 
@@ -23,61 +19,17 @@ then loops:
 	 - waits a second
 	 - then back to the top
 
+boards
+------
 
-build
------
+ - uemb1 
+ - uemb4
+ - HY-STM32_100P
+ - Any stm32f1 or stm32f4 board with SDIO and a console USART support would work.
 
-First, set up the stm32-build-env (see https://github.com/drmetal/stm32-build-env)
- 
-then clone the demo project:
- 
- - git clone https://github.com/drmetal/file-io-demo.git
-  
-Make a new eclipse "Makefile" project, if you like to use eclipse, in the folder file-io-demo.
-The Makefile in that project requires the following settings:
- 
-``` make 
 
-	BOARD = HY-STM32_100P
-	
-	PROJECT_NAME = file-io-demo
-	
-	SOURCE = main.c
-	
-	USE_FREERTOS = 1
-	USE_MINSTDLIBS = 1
-	USE_LOGGER = 1
-	USE_POSIX_STYLE_IO = 1
-	USE_DRIVER_LEDS = 1
-	USE_DRIVER_SYSTEM_TIMER = 1
-	USE_DRIVER_USART = 1
-	USE_DRIVER_SDCARD_SDIO = 1
-	USE_DRIVER_FAT_FILESYSTEM = 1
-	
-	USE_FULL_ASSERT = 1
-	
-	STM32DEVSUPPORTDIR = ../..
-	include $(STM32DEVSUPPORTDIR)/stm32-build-env/setup.mk
-
-```
- 
-**to build:**
-
-``` bash 
-	
-	cd path/to/file-io-demo
-	# optimised build
-	make clean release
-	# debug build
-	make clean debug
-	
-	# programming with st-flash (tool by texane)
-	st-flash write bin/file-io-demo.bin 0x08000000
-	
-	# to debug the elf file is located in the bin directory...
-```
-
-**to test:**
+test
+----
 
  - run a serial-terminal program to monitor the board console output.
 

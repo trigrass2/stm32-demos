@@ -61,7 +61,6 @@ void init_devices(void* ctx)
 {
     appdata_t* appdata = (appdata_t*)ctx;
 
-    log_add_handler(STDOUT_FILENO);
     log_init(&appdata->log, "main");
 
     // initialise filesystem

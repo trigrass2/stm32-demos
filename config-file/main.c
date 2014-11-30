@@ -32,7 +32,6 @@ void init_devices(void* p)
 {
 	(void)p;
 
-	log_add_handler(STDOUT_FILENO);
 	log_init(&log, "main");
 
 	sdfs_init();

@@ -3,6 +3,7 @@
 #include "leds.h"
 #include "ff.h"
 
+#define TEST_FILENAME   "testfile"
 FATFS fs;
 char buffer[16];
 
@@ -16,7 +17,7 @@ int main(void)
     f_mount(0, &fs);
 
     // open a new file for writing
-    if(f_open(&f, "bootcode", FA_WRITE|FA_OPEN_ALWAYS) == FR_OK)
+    if(f_open(&f, TEST_FILENAME, FA_WRITE|FA_OPEN_ALWAYS) == FR_OK)
     {
         // flash twice
         flash = 4;
@@ -26,7 +27,7 @@ int main(void)
     }
 
     // open the new file for reading
-    if(f_open(&f, "bootcode", FA_READ) == FR_OK)
+    if(f_open(&f, TEST_FILENAME, FA_READ) == FR_OK)
     {
         // flash three times
         flash = 6;

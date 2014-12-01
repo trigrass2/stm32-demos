@@ -1,14 +1,14 @@
 
 BOARD = uemb4
-PROJECT_NAME = minimal-fatfs
+PROJECT_NAME = fatfs-minimal
 
 SOURCE = main.c
 
 ## set the following to 1 in order 
 ## to see the log output on the CONSOLE_USART
-USE_DRIVER_USART = 1
-USE_STDIO_USART = 1
-USE_LOGGER = 1
+USE_DRIVER_USART = 0
+USE_STDIO_USART = 0
+USE_LOGGER = 0
 
 USE_MINSTDLIBS = 1
 USE_DRIVER_SYSTEM_TIMER = 1

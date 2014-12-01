@@ -54,7 +54,7 @@
 /**
  * location where devices get installed to
  */
-#define DEVICE_INTERFACE_DIRECTORY 	"/dev/"
+#define DEVICE_INTERFACE_DIRECTORY 	"/dev"
 /**
  * this is a hack that adds an ofset in seconds onto the time returned by time/gettimeofday.
  * corrects time set by NTP for your timezone. 12 hours for NZT

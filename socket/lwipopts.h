@@ -219,6 +219,10 @@ The STM32F4x7 allows computing and verifying the IP, UDP, TCP and ICMP checksums
 #define LWIP_COMPAT_SOCKETS				1
 #define LWIP_POSIX_SOCKETS_IO_NAMES		0
 
+#include <limits.h>
+#define LWIP_SO_SNDTIMEO                0
+#define LWIP_SO_RCVTIMEO                0
+#define LWIP_SO_RCVBUF                  1
 
 /*
    ----------------------------------------

@@ -23,7 +23,6 @@
 
 
 void init_devices(void* p);
-void test(void*p);
 int custom_cmd_handler(int fdes, const char** args, unsigned char nargs);
 
 #define  init_devices_task() xTaskCreate(init_devices, "init", configMINIMAL_STACK_SIZE + 192, NULL, tskIDLE_PRIORITY + 1, NULL)
@@ -78,7 +77,7 @@ void init_devices(void* p)
 
     log_info(&log, "device init done...");
 
-    if(start_shell(&shell, DEFAULT_SHELL_CONFIG_PATH))
+    if(start_shell(&shell, DEFAULT_SHELL_CONFIG_PATH) != -1)
     {
         install_fs_cmds(&shell);
         install_net_cmds(&shell);

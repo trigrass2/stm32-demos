@@ -1,6 +1,6 @@
 
-BOARD = HY-STM32_100P
-PROJECT_NAME = socket-demo
+BOARD = uemb4
+PROJECT_NAME = shell-demo
 
 SOURCE = main.c
 

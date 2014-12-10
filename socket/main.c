@@ -16,7 +16,7 @@
 #include "net.h"
 #include "cutensils.h"
 #include "nutensils.h"
-#include "dhcp.h"
+#include "lwip/dhcp.h"
 
 
 void init_devices(void* p);

@@ -24,7 +24,7 @@
  * IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY
  * OF SUCH DAMAGE.
  *
- * This file is part of the freertos-posix-wrapper project, <https://github.com/drmetal/freertos-posix-wrapper>
+ * This file is part of the like-posix project, <https://github.com/drmetal/like-posix>
  *
  * Author: Michael Stuart <spaceorbot@gmail.com>
  *
@@ -54,12 +54,15 @@
 /**
  * location where devices get installed to
  */
-#define DEVICE_INTERFACE_DIRECTORY 	"/dev/"
+#define DEVICE_INTERFACE_DIRECTORY 	"/dev"
 /**
  * this is a hack that adds an ofset in seconds onto the time returned by time/gettimeofday.
  * corrects time set by NTP for your timezone. 12 hours for NZT
  */
 #define TIMEZONE_OFFSET (12 * 60 * 60)
-
+/**
+ * enable integration of lwip sockets in likeposix
+ */
+#define ENABLE_LIKEPOSIX_SOCKETS    0
 
 #endif /* LIKEPOSIX_CONFIG_H_ */

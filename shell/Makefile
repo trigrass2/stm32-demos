@@ -1,6 +1,6 @@
 
 BOARD = uemb4
-PROJECT_NAME = shell-demo
+PROJECT_NAME = shell
 
 SOURCE = main.c
 

@@ -1,6 +1,6 @@
 
 BOARD = HY-STM32_100P
-PROJECT_NAME = socket-demo
+PROJECT_NAME = socket
 
 SOURCE = main.c
 

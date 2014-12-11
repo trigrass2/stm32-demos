@@ -141,7 +141,6 @@ a lot of data that needs to be copied, this should be set high. */
 
 /* ---------- Statistics options ---------- */
 #define LWIP_STATS 1
-#define LWIP_PROVIDE_ERRNO 1
 
 #define DEFAULT_RAW_RECVMBOX_SIZE       128
 #define DEFAULT_UDP_RECVMBOX_SIZE       128
@@ -217,7 +216,7 @@ The STM32F4x7 allows computing and verifying the IP, UDP, TCP and ICMP checksums
  * LWIP_SOCKET==1: Enable Socket API (require to use sockets.c)
  */
 #define LWIP_SOCKET                     1
-#define LWIP_COMPAT_SOCKETS				1
+#define LWIP_COMPAT_SOCKETS				0
 #define LWIP_POSIX_SOCKETS_IO_NAMES		0
 
 #include <limits.h>

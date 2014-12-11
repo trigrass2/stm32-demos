@@ -1,6 +1,6 @@
 
 BOARD = uemb4
-PROJECT_NAME = lcd-demo
+PROJECT_NAME = lcd-clock
 
 SOURCE = main.c
 

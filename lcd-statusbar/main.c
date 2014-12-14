@@ -79,7 +79,6 @@ void init_devices(void* p)
     (void)p;
 
     // init logger
-    log_add_handler(STDOUT_FILENO);
     log_init(&mainlog, "main");
 
     lcd_init();

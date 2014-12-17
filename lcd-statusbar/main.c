@@ -35,20 +35,26 @@ static shellserver_t sh;
 static netconf_t netconf;
 static logger_t mainlog;
 
+
+#define BOX_LOCATION    {30, 60}
+#define BOX_SIZE        {180, 54}
+#define BOX_MAIN_FONT   Digital_7_Italic_64
+#define BOX_UNIT_FONT   Ubuntu_20
+
 char buffer[16];
 
 static panel_meter_t panelmeter = {
     .prescision = "%.2f",
-    .location = {60, 60},
-    .units = "units",
-    .units_font = &Ubuntu_32,
+    .location = BOX_LOCATION,
+    .units = "V",
+    .units_font = &BOX_UNIT_FONT,
     .background = {
         .fill_colour = MID_GREEN,
         .border_colour = MID_GREEN,
-        .size = {200, 40}
+        .size = BOX_SIZE
     },
     .textbox = {
-        .font = &Digital_7_Italic_32,
+        .font = &BOX_MAIN_FONT,
         .colour = GREEN
     }
 };
@@ -59,7 +65,7 @@ static touch_key_t meter_key = {
 };
 
 static touch_handler_t meter_key_handler = {
-    .location = {60, 60},
+    .location = BOX_LOCATION,
     .keydata = &meter_key
 };
 
@@ -96,8 +102,6 @@ void init_devices(void* p)
     // init networking
     net_config(&netconf, DEFAULT_RESOLV_CONF_PATH, DEFAULT_NETIF_CONF_PATH);
     net_init(&netconf);
-
-//    while(!wait_for_address(&netconf));
 
     log_info(&mainlog, "device init done...");
 

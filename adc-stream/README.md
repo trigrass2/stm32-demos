@@ -1,4 +1,4 @@
-adc=stream
+adc-stream
 ==========
 
 demo of audio input streaming using the on chip ADC(s)

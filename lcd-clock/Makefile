@@ -3,6 +3,7 @@ BOARD = uemb4
 PROJECT_NAME = lcd-clock
 
 SOURCE = main.c
+SOURCE += clock.c
 
 USE_FREERTOS = 1
 USE_MINSTDLIBS = 1

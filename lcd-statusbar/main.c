@@ -44,40 +44,32 @@ static logger_t mainlog;
 char buffer[16];
 
 static panel_meter_t panelmeter = {
-    .prescision = "%.2f",
-    .location = BOX_LOCATION,
+    .length = sizeof(buffer),
+    .precision = "%.2f",
     .units = "V",
     .units_font = &BOX_UNIT_FONT,
-    .background = {
-        .fill_colour = MID_GREEN,
-        .border_colour = MID_GREEN,
-        .size = BOX_SIZE
-    },
-    .textbox = {
-        .font = &BOX_MAIN_FONT,
-        .colour = GREEN
+    .touch_key = {
+        .text = {
+            .font = &BOX_MAIN_FONT,
+            .colour = GREEN,
+            .shape = {
+                .fill_colour = MID_GREEN,
+                .border_colour = MID_GREEN,
+                .size = BOX_SIZE,
+            }
+        },
+        .location = BOX_LOCATION,
+        .alt_colour = MID_GREEN,
     }
-};
-
-static touch_key_t meter_key = {
-    .text = &panelmeter.textbox,
-    .alt_colour = LIGHT_GREEN,
-};
-
-static touch_handler_t meter_key_handler = {
-    .location = BOX_LOCATION,
-    .keydata = &meter_key
 };
 
 char* panelmeter_touch_appdata = "panel meter";
 
-void touch_key_callback(touch_handler_t* key)
+void touch_key_callback(touch_key_t* key)
 {
-    if(touch_key_is(&meter_key_handler, key))
-    {
-        printf("touch key: %s\n", touch_get_appdata(key));
-        printf("touch type: %s\n", touch_get_press_type_string(key));
-    }
+    printf("touch key: %s\n", touch_key_get_appdata(key));
+    printf("touch type: %s\n", touch_panel_get_press_type_string(&key->handler));
+    printf("touch appdata: %s\n", touch_key_get_appdata(key));
 }
 
 void init_devices(void* p)
@@ -89,7 +81,7 @@ void init_devices(void* p)
 
     lcd_init();
     graphics_init();
-    touch_init();
+    touch_panel_init();
     lcd_backlight(1);
     set_background_colour(BLACK);
     statusbar_init();
@@ -117,10 +109,7 @@ void init_devices(void* p)
     log_info(&mainlog, "service init done...");
 
     init_panel_meter(&panelmeter, buffer, sizeof(buffer), true);
-    touch_set_callback(&meter_key_handler, touch_key_callback);
-    touch_set_appdata(&meter_key_handler, panelmeter_touch_appdata);
-    touch_add_key(&meter_key_handler);
-    touch_enable_key(&meter_key_handler, true);
+    panel_meter_enable_touch(&panelmeter, (touch_callback_t)touch_key_callback, panelmeter_touch_appdata);
 
     float val = 0;
     while(1)

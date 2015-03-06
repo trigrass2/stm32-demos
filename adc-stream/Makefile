@@ -17,5 +17,5 @@ DEBUG_PRINTF_EXCEPTIONS = 1
 USE_LOGGER = 1
 USE_STDIO_USART = 1
 	
-STM32DEVSUPPORTDIR = ../..
-include $(STM32DEVSUPPORTDIR)/stm32-build-env/setup.mk
+STM32DEVSUPPORTDIR = ../../app-l-seed
+include $(STM32DEVSUPPORTDIR)/build-env/setup.mk

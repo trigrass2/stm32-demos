@@ -7,6 +7,12 @@ This is a collection of demos.
  - some run on more than one target 
  - all have differing dependencies
  - the build note below explains how to build any demo
+ 
+sdcard
+------
+
+some of the demos require an sd card inserted, loaded with the base filesystem.
+copy the contents of like-posix/base_fs to a card, and plug it into the board.
 
 build
 -----

@@ -6,16 +6,13 @@
 #include "leds.h"
 #include "dac_stream.h"
 
-void dac_stream_callback(uint16_t* buffer, uint16_t length, uint8_t channels, uint8_t channel)
+
+void dac_stream_callback(uint16_t* buffer, uint16_t length, uint8_t channels, stream_connection_t* conn)
 {
-    printf("%x %d %d %d\n", buffer, length, channels, channel);
+    printf("%s: %x %d %d %d\n", conn->name, buffer, length, channels, conn->stream_channel);
 }
 
-stream_connection_t dac_stream_conn = {
-        .process = dac_stream_callback,
-        .name = "abc",
-        .enabled = true
-};
+stream_connection_t dac_stream_conn;
 
 void test_task(void*p)
 {
@@ -23,7 +20,10 @@ void test_task(void*p)
 
     dac_stream_init();
     dac_stream_set_samplerate(2000);
-    dac_stream_connect_service(&dac_stream_conn);
+    dac_stream_start();
+    stream_connection_init(&dac_stream_conn, dac_stream_callback, "dac process", NULL);
+    dac_stream_connect_service(&dac_stream_conn, 0);
+    stream_connection_enable(&dac_stream_conn, true);
 
     for(;;)
     {

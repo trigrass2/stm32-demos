@@ -11,5 +11,5 @@ USE_DRIVER_LEDS = 1
 USE_FULL_ASSERT = 0
 DEBUG_PRINTF_EXCEPTIONS = 0
 
-STM32DEVSUPPORTDIR = ../..
-include $(STM32DEVSUPPORTDIR)/stm32-build-env/setup.mk
+STM32DEVSUPPORTDIR = ../../app-l-seed
+include $(STM32DEVSUPPORTDIR)/build-env/setup.mk

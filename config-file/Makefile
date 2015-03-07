@@ -21,5 +21,5 @@ USE_DRIVER_FAT_FILESYSTEM = 1
 USE_FULL_ASSERT = 1
 DEBUG_PRINTF_EXCEPTIONS = 1
 	
-STM32DEVSUPPORTDIR = ../../app-l-seed/app-l-seed
+STM32DEVSUPPORTDIR = ../../app-l-seed
 include $(STM32DEVSUPPORTDIR)/build-env/setup.mk

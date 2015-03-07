@@ -21,6 +21,7 @@
 #include "os_cmds.h"
 
 #include "lcd.h"
+#include "lcd_backlight.h"
 #include "graphics.h"
 #include "touch_panel.h"
 #include "statusbar.h"
@@ -36,32 +37,13 @@ static netconf_t netconf;
 static logger_t mainlog;
 
 
-#define BOX_LOCATION    {30, 60}
-#define BOX_SIZE        {180, 54}
-#define BOX_MAIN_FONT   Digital_7_Italic_64
-#define BOX_UNIT_FONT   Ubuntu_20
+#define BOX_LOCATION    (point_t){30, 60}
+#define BOX_SIZE        (point_t){180, 54}
+#define BOX_MAIN_FONT   &Digital_7_Italic_64
+#define BOX_UNIT_FONT   &Ubuntu_20
 
 char buffer[16];
-
-static panel_meter_t panelmeter = {
-    .length = sizeof(buffer),
-    .precision = "%.2f",
-    .units = "V",
-    .units_font = &BOX_UNIT_FONT,
-    .touch_key = {
-        .text = {
-            .font = &BOX_MAIN_FONT,
-            .colour = GREEN,
-            .shape = {
-                .fill_colour = MID_GREEN,
-                .border_colour = MID_GREEN,
-                .size = BOX_SIZE,
-            }
-        },
-        .location = BOX_LOCATION,
-        .alt_colour = MID_GREEN,
-    }
-};
+static panel_meter_t panelmeter;
 
 char* panelmeter_touch_appdata = "panel meter";
 
@@ -82,8 +64,11 @@ void init_devices(void* p)
     lcd_init();
     graphics_init();
     touch_panel_init();
-    lcd_backlight(1);
+    lcd_backlight_init();
+    lcd_backlight_auto_off(false);
+    lcd_backlight_enable();
     set_background_colour(BLACK);
+
     statusbar_init();
 
     // init filesystem
@@ -108,13 +93,13 @@ void init_devices(void* p)
 
     log_info(&mainlog, "service init done...");
 
-    init_panel_meter(&panelmeter, buffer, sizeof(buffer), true);
+    panel_meter_init(&panelmeter, buffer, sizeof(buffer), BOX_LOCATION, BOX_SIZE, true, "%.2f", "C", BOX_MAIN_FONT, BOX_UNIT_FONT);
     panel_meter_enable_touch(&panelmeter, (touch_callback_t)touch_key_callback, panelmeter_touch_appdata);
 
     float val = 0;
     while(1)
     {
-        update_panel_meter(&panelmeter, val);
+        panel_meter_update(&panelmeter, val);
         val += 0.1;
         sleep(1);
     }

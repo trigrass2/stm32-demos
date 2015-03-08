@@ -25,7 +25,6 @@
 #include "graphics.h"
 #include "touch_panel.h"
 #include "statusbar.h"
-#include "panel_meter.h"
 #include "touch_key.h"
 
 void init_devices(void* p);
@@ -35,24 +34,6 @@ void init_devices(void* p);
 static shellserver_t sh;
 static netconf_t netconf;
 static logger_t mainlog;
-
-
-#define BOX_LOCATION    (point_t){30, 60}
-#define BOX_SIZE        (point_t){180, 54}
-#define BOX_MAIN_FONT   &Digital_7_Italic_64
-#define BOX_UNIT_FONT   &Ubuntu_20
-
-char buffer[16];
-static panel_meter_t panelmeter;
-
-char* panelmeter_touch_appdata = "panel meter";
-
-void touch_key_callback(touch_key_t* key)
-{
-    printf("touch key: %s\n", touch_key_get_appdata(key));
-    printf("touch type: %s\n", touch_panel_get_press_type_string(&key->handler));
-    printf("touch appdata: %s\n", touch_key_get_appdata(key));
-}
 
 void init_devices(void* p)
 {
@@ -92,17 +73,6 @@ void init_devices(void* p)
         log_info(&mainlog, "shell init falied...");
 
     log_info(&mainlog, "service init done...");
-
-    panel_meter_init(&panelmeter, buffer, sizeof(buffer), BOX_LOCATION, BOX_SIZE, true, "%.2f", "C", BOX_MAIN_FONT, BOX_UNIT_FONT);
-    panel_meter_enable_touch(&panelmeter, (touch_callback_t)touch_key_callback, panelmeter_touch_appdata);
-
-    float val = 0;
-    while(1)
-    {
-        panel_meter_update(&panelmeter, val);
-        val += 0.1;
-        sleep(1);
-    }
 
     vTaskDelete(NULL);
 }

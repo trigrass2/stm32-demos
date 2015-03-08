@@ -24,7 +24,7 @@ sdcard
 ------
 
 some of the demos require an sd card inserted, loaded with the base filesystem.
-copy the contents of like-posix/base_fs to a card, and plug it into the board.
+copy the contents of app-l-seed/like-posix/base_fs to a card, and plug it into the board.
 
 build
 -----

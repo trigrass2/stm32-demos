@@ -16,7 +16,6 @@
 #include "net.h"
 #include "cutensils.h"
 #include "nutensils.h"
-#include "lwip/dhcp.h"
 
 
 void init_devices(void* p);
@@ -66,7 +65,7 @@ void test(void*p)
     // loop doing an HTTP GET, printing the response
     for(;;)
     {
-        fd = sock_connect(host, port, SOCK_STREAM);
+        fd = sock_connect(host, port, SOCK_STREAM, NULL);
 
         if(fd != -1)
         {

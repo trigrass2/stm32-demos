@@ -105,6 +105,7 @@ void test_task(void* ctx)
     // remove old file if there was one
     unlink(TEST_DATAFILE);
 
+#if 0
     for(;;)
     {
         // fopen is the most convenient method of opening a regular file
@@ -135,9 +136,44 @@ void test_task(void* ctx)
             log_info(&appdata->log, "couldnt open %s", TEST_DATAFILE);
             sleep(1);
         }
-
         taskYIELD();
     }
+#else
+    // fopen is the most convenient method of opening a regular file
+   datafile = fopen(TEST_DATAFILE, "w");
+
+   for(;;)
+   {
+       if(datafile != NULL)
+       {
+           // use the read system call for devices
+           ret = read(serial, buffer, sizeof(buffer));
+           if(ret != EOF && ret > 0)
+           {
+               buffer[ret] = '\0';
+               fputs(buffer, datafile);
+               fflush(datafile);
+               log_info(&appdata->log, "got: %s", buffer);
+           }
+           else
+           {
+               log_info(&appdata->log, "file size: %d", ftell(datafile));
+               sleep(1);
+           }
+
+           toggle_led(LED2);
+
+       }
+       else
+       {
+           log_info(&appdata->log, "couldnt open %s", TEST_DATAFILE);
+           sleep(1);
+       }
+       taskYIELD();
+   }
+   fclose(datafile);
+#endif
+
 }
 
 

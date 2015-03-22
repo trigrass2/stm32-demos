@@ -59,6 +59,7 @@
  *  - SysTick_Handler
  */
 #include "stm32_device_support.h"
+#include "asserts.h"
 
 /*-----------------------------------------------------------
  * Application specific definitions.
@@ -73,11 +74,12 @@
 #define configUSE_PREEMPTION					1
 #define configUSE_IDLE_HOOK						0
 #define configUSE_TICK_HOOK						0
+#define configUSE_MALLOC_FAILED_HOOK            0
 #define configCPU_CLOCK_HZ						( ( unsigned portLONG ) SystemCoreClock )
 #define configTICK_RATE_HZ						( ( portTickType ) 1000 )
 #define configMAX_PRIORITIES					( ( unsigned portBASE_TYPE ) 5 )
 #define configMINIMAL_STACK_SIZE				( ( unsigned portSHORT ) 128 )
-#define configTOTAL_HEAP_SIZE					( ( size_t ) ( 28 * 1024 ) )
+#define configTOTAL_HEAP_SIZE					( ( size_t ) ( 64 * 1024 ) )
 #define configMAX_TASK_NAME_LEN					16
 #define configUSE_TRACE_FACILITY				1
 #define configUSE_STATS_FORMATTING_FUNCTIONS	1
@@ -89,6 +91,9 @@
 
 #define configUSE_CO_ROUTINES					0
 #define configMAX_CO_ROUTINE_PRIORITIES 		2
+
+#define configASSERT                            assert_true
+
 
 /* Set the following definitions to 1 to include the API function, or zero
 to exclude the API function. */
@@ -107,7 +112,7 @@ to exclude the API function. */
 /* This is the raw value as per the Cortex-M3 NVIC.  Values can be 255
 (lowest) to 0 (1?) (highest). */
 #define configKERNEL_INTERRUPT_PRIORITY 		255
-#define configMAX_SYSCALL_INTERRUPT_PRIORITY 	191 /* equivalent to 0xa0, or priority 5. */
+#define configMAX_SYSCALL_INTERRUPT_PRIORITY 	34//191 /* equivalent to 0xa0, or priority 5. */
 
 /* This is the value being used as per the ST library which permits 16
 priority values, 0 to 15.  This must correspond to the

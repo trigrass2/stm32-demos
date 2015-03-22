@@ -17,6 +17,7 @@
 #include "cutensils.h"
 #include "nutensils.h"
 #include "http_server.h"
+#include "http_api_demo.h"
 
 
 void init_devices(void* p);
@@ -45,7 +46,7 @@ void init_devices(void* p)
 
     log_info(&log, "device init done...");
 
-    if(init_http_server(&httpd, DEFAULT_HTTPSERVER_CONF_PATH, NULL) == -1)
+    if(init_http_server(&httpd, DEFAULT_HTTPSERVER_CONF_PATH, get_http_api_members()) == -1)
     {
         log_error(&log, "http server init failed");
     }

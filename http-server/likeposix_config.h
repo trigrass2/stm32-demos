@@ -46,7 +46,7 @@
 /**
  * the maximum number of open files/devices
  */
-#define FILE_TABLE_LENGTH 		32
+#define FILE_TABLE_LENGTH 		48
 /**
  * the maximum number of installed devices, maximum of 255
  */

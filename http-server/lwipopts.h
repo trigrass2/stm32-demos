@@ -55,7 +55,7 @@
 
 /* MEM_SIZE: the size of the heap memory. If the application will send
 a lot of data that needs to be copied, this should be set high. */
-#define MEM_SIZE                (10*1024)
+#define MEM_SIZE                (8*1024)
 
 /* MEMP_NUM_PBUF: the number of memp struct pbufs. If the application
    sends a lot of data out of ROM (or other static memory), this
@@ -119,9 +119,9 @@ a lot of data that needs to be copied, this should be set high. */
 #define TCP_TMR_INTERVAL        50
 
 /* ---------- TCPIP options ---------- */
-#define TCPIP_THREAD_STACKSIZE	configMINIMAL_STACK_SIZE + 1024
-#define TCPIP_THREAD_PRIO		tskIDLE_PRIORITY + 1
-#define TCPIP_MBOX_SIZE			128
+#define TCPIP_THREAD_STACKSIZE	configMINIMAL_STACK_SIZE + 800
+#define TCPIP_THREAD_PRIO		tskIDLE_PRIORITY + NET_TASK_PRIORITY
+#define TCPIP_MBOX_SIZE			32
 
 
 /* ---------- ICMP options ---------- */
@@ -145,10 +145,10 @@ a lot of data that needs to be copied, this should be set high. */
 /* ---------- Statistics options ---------- */
 #define LWIP_STATS 1
 
-#define DEFAULT_RAW_RECVMBOX_SIZE       128
-#define DEFAULT_UDP_RECVMBOX_SIZE       128
-#define DEFAULT_TCP_RECVMBOX_SIZE       128
-#define DEFAULT_ACCEPTMBOX_SIZE         128
+#define DEFAULT_RAW_RECVMBOX_SIZE       32
+#define DEFAULT_UDP_RECVMBOX_SIZE       32
+#define DEFAULT_TCP_RECVMBOX_SIZE       32
+#define DEFAULT_ACCEPTMBOX_SIZE         32
 
 
 /*

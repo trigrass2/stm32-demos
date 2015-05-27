@@ -63,6 +63,6 @@
 /**
  * enable integration of lwip sockets in likeposix
  */
-#define ENABLE_LIKEPOSIX_SOCKETS    1
+#define ENABLE_LIKEPOSIX_SOCKETS    0
 
 #endif /* LIKEPOSIX_CONFIG_H_ */

@@ -46,11 +46,11 @@
 /**
  * the maximum number of open files/devices
  */
-#define FILE_TABLE_LENGTH 		48
+#define FILE_TABLE_LENGTH 		10
 /**
  * the maximum number of installed devices, maximum of 255
  */
-#define DEVICE_TABLE_LENGTH 	10
+#define DEVICE_TABLE_LENGTH 	3
 /**
  * location where devices get installed to
  */
@@ -63,6 +63,6 @@
 /**
  * enable integration of lwip sockets in likeposix
  */
-#define ENABLE_LIKEPOSIX_SOCKETS    1
+#define ENABLE_LIKEPOSIX_SOCKETS    0
 
 #endif /* LIKEPOSIX_CONFIG_H_ */

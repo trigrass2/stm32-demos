@@ -5,10 +5,12 @@
  *      Author: mike
  */
 
+#include <sys/time.h>
 #include <fcntl.h>
 #include <unistd.h>
 #include <stdio.h>
 
+#include "net.h"
 #include "system.h"
 #include "http_api_demo.h"
 

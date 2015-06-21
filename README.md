@@ -10,10 +10,10 @@ Many of the demos can run on more than one target board, board support exists fo
  - uemb4
  - stm32f4-discovery
 
-set up
-------
+setup
+-----
 
-The demos are bundled together, and depend upon the appleseed project.
+The demos are bundled together, and depend upon the appleseed project. They depend upon Appleseed, which should be placed in the same directory with the demos.
 
 ```bash
 git clone https://github.com/drmetal/stm32-demos.git

@@ -22,7 +22,7 @@ test
 	
 	# netcat - specify ip address and port 22, hit enter a few times for the prompt
 	# type help to see commands
-	nc 192.168.0.xxx 22
+	$ nc 192.168.0.xxx 22
 	0:#
 	0:#
 	
@@ -30,6 +30,7 @@ test
 	
 	# or miniterm.py, this is a little better as it isnt line based like netcat
 	
+	$ miniterm.py socket://192.168.0.xxx:22
 	0:/# 
 	0:/# help
 	the following commands exist:

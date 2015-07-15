@@ -31,7 +31,7 @@ void test(void*p);
 
 static netconf_t netconf;
 static logger_t log;
-shellserver_t shell;
+static shellserver_t shell;
 
 void init_devices(void* p)
 {
@@ -64,7 +64,7 @@ void init_devices(void* p)
     if(udplog == -1)
         log_error(&log, "failed to start udp log...");
 
-    if(start_shell(&shell, DEFAULT_SHELL_CONFIG_PATH) != -1)
+    if(start_shell(&shell, NULL, DEFAULT_SHELL_CONFIG_PATH, true, true, -1, -1) != -1)
     {
         install_fs_cmds(&shell);
         install_net_cmds(&shell);

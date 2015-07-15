@@ -63,7 +63,7 @@ void init_devices(void* p)
 
     log_info(&mainlog, "device init done...");
 
-    if(start_shell(&sh, DEFAULT_SHELL_CONFIG_PATH) != -1)
+    if(start_shell(&sh, NULL, DEFAULT_SHELL_CONFIG_PATH, true, true, -1, -1) != -1)
     {
         install_fs_cmds(&sh);
         install_net_cmds(&sh);

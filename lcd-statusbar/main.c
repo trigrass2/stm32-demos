@@ -19,6 +19,7 @@
 #include "fs_cmds.h"
 #include "net_cmds.h"
 #include "os_cmds.h"
+#include "builtins.h"
 
 #include "lcd.h"
 #include "lcd_backlight.h"
@@ -63,13 +64,12 @@ void init_devices(void* p)
 
     log_info(&mainlog, "device init done...");
 
-    if(start_shell(&sh, NULL, DEFAULT_SHELL_CONFIG_PATH, true, true, -1, -1) != -1)
-    {
-        install_fs_cmds(&sh);
-        install_net_cmds(&sh);
-        install_os_cmds(&sh);
-    }
-    else
+    install_builtin_cmds(&sh);
+    install_fs_cmds(&sh);
+    install_net_cmds(&sh);
+    install_os_cmds(&sh);
+
+    if(start_shell(&sh, NULL, DEFAULT_SHELL_CONFIG_PATH, true, true, -1, -1) == -1)
         log_info(&mainlog, "shell init falied...");
 
     log_info(&mainlog, "service init done...");

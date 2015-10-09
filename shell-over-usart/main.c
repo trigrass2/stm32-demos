@@ -21,6 +21,7 @@
 #include "cutensils.h"
 #include "nutensils.h"
 #include "shell.h"
+#include "builtins.h"
 #include "fs_cmds.h"
 #include "os_cmds.h"
 
@@ -99,7 +100,8 @@ void init_devices(void* p)
 
     register_command(&shell, &sh_custom_cmd, NULL, NULL, NULL);
     int fdes = open("/dev/ttyS0", O_RDWR, 128);
-    shell_instance(&shell, fdes, fdes);
+
+    start_shell(&shell, NULL, NULL, true, false, fdes, fdes);
 
     log_info(&log, "service init done...");
 

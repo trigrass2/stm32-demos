@@ -20,6 +20,7 @@
 #include "net_cmds.h"
 #include "fs_cmds.h"
 #include "os_cmds.h"
+#include "builtins.h"
 
 
 void init_devices(void* p);
@@ -77,14 +78,13 @@ void init_devices(void* p)
 
     log_info(&log, "device init done...");
 
-    if(start_shell(&shell, NULL, DEFAULT_SHELL_CONFIG_PATH, true, true, -1, -1) != -1)
-    {
-        install_fs_cmds(&shell);
-        install_net_cmds(&shell);
-        install_os_cmds(&shell);
+    install_builtin_cmds(&shell);
+    install_fs_cmds(&shell);
+    install_net_cmds(&shell);
+    install_os_cmds(&shell);
+    register_command(&shell, &sh_custom_cmd, NULL, NULL, NULL);
 
-        register_command(&shell, &sh_custom_cmd, NULL, NULL, NULL);
-    }
+    start_shell(&shell, NULL, DEFAULT_SHELL_CONFIG_PATH, true, true, -1, -1);
 
     log_info(&log, "service init done...");
 

@@ -17,14 +17,14 @@ The demos are bundled together, and depend upon the appleseed project. They depe
 
 ```bash
 git clone https://github.com/drmetal/stm32-demos.git
-git clone https://github.com/drmetal/app-l-seed.git
+git clone https://github.com/drmetal/appleseed.git
 ```
 
 sdcard
 ------
 
 some of the demos require an sd card inserted, loaded with the base filesystem.
-copy the contents of app-l-seed/like-posix/base_fs to a card, and plug it into the board.
+copy the contents of appleseed/like-posix/base_fs to a card, and plug it into the board.
 
 build
 -----

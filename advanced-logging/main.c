@@ -21,7 +21,13 @@
 #include "net_cmds.h"
 #include "fs_cmds.h"
 #include "os_cmds.h"
+#include "builtins.h"
 
+/**************************
+ *
+ * Demo may be broken :(
+ *
+ ***************************/
 
 void init_devices(void* p);
 void test(void*p);
@@ -51,7 +57,9 @@ void init_devices(void* p)
     while(!wait_for_address(&netconf));
 
     // sure the log directory exists
+    mkdir("/var", 0777);
     mkdir("/var/log", 0777);
+
     // add file logger - can add any regular file, device file, tcp client socket, or STDOUT_FILENO/STDERR_FILENO
     int syslog = open("/var/log/syslog", O_WRONLY|O_APPEND|O_CREAT);
     if(syslog != -1)
@@ -60,15 +68,19 @@ void init_devices(void* p)
         log_error(&log, "failed to open syslog...");
 
     // adding a udp handler is a special case
-    int udplog = add_udp_log_handler("10.0.2.15", 32000);
+    int udplog = add_udp_log_handler("192.168.20.112", 32000);
     if(udplog == -1)
         log_error(&log, "failed to start udp log...");
 
-    if(start_shell(&shell, NULL, DEFAULT_SHELL_CONFIG_PATH, true, true, -1, -1) != -1)
+
+    install_builtin_cmds(&shell);
+    install_fs_cmds(&shell);
+    install_net_cmds(&shell);
+    install_os_cmds(&shell);
+
+    if(start_shell(&shell, NULL, DEFAULT_SHELL_CONFIG_PATH, true, true, -1, -1) == -1)
     {
-        install_fs_cmds(&shell);
-        install_net_cmds(&shell);
-        install_os_cmds(&shell);
+        log_error(&log, "failed to start shell...");
     }
 
     // done

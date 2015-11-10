@@ -56,9 +56,15 @@ Board Support
 
 Most of the demos can run on more than one target board, board support exists for:
 
- - HY-STM32_100P this is a cheap bord with lots of features, and a mini ENC28J60 addon
+ - HY-STM32_100P this is a cheap bord with lots of features, and a mini ENC28J60 addon.
+ 
  	<a href="https://drive.google.com/uc?export=view&id=0B1Zk1jXs2BXaUUtaTU40YmZiZDQ"><img src="https://drive.google.com/uc?export=view&id=0B1Zk1jXs2BXaUUtaTU40YmZiZDQ" style="width: 500px; max-width: 100%; height: auto" title="Click for the larger version." /></a>
+
  - uemb1, uemb4 these are my own design (STM32F103VE and STM32F407VE variants are available). includes support for TFT, stereo audio in and out, USB, FTDI RS232, Ethernet and GPIO. Can fit into a Hammond 1591 enclosure.
+ -
  	<a href="https://drive.google.com/uc?export=view&id=0B1Zk1jXs2BXaWU9YeEZyUlQ4QmM"><img src="https://drive.google.com/uc?export=view&id=0B1Zk1jXs2BXaWU9YeEZyUlQ4QmM" style="width: 500px; max-width: 100%; height: auto" title="Click for the larger version." /></a>
+
  - stm32f4-discovery
+ -
  	<a href="https://drive.google.com/uc?export=view&id=0B1Zk1jXs2BXaZzFxSXM1TkdKMm8"><img src="https://drive.google.com/uc?export=view&id=0B1Zk1jXs2BXaZzFxSXM1TkdKMm8" style="width: 500px; max-width: 100%; height: auto" title="Click for the larger version." /></a>
+

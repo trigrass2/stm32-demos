@@ -3,15 +3,6 @@ stm32-demos
 
 This is a collection of demo programs that show how to write programs for the appleseed OS.
 
-https://drive.google.com/open?id=0B1Zk1jXs2BXaS2JqOW43dU5PT00
-
-https://drive.google.com/open?id=0B1Zk1jXs2BXaZzFxSXM1TkdKMm8
-
-<a href="https://drive.google.com/uc?export=view&id=0B1Zk1jXs2BXaS2JqOW43dU5PT00"><img src="https://drive.google.com/uc?export=view&id=0B1Zk1jXs2BXaS2JqOW43dU5PT00" style="width: 500px; max-width: 100%; height: auto" title="Click for the larger version." /></a>
-<img src="https://drive.google.com/uc?export=view&id=0B1Zk1jXs2BXaWU9YeEZyUlQ4QmM" style="width: 500px; max-width: 100%; height: auto" title="Click for the larger version." />
-
-<a href="https://drive.google.com/uc?export=view&id=0B1Zk1jXs2BXaZzFxSXM1TkdKMm8"></a>
-
 setup
 -----
 
@@ -70,6 +61,7 @@ HY-STM32_100P this is a cheap bord with lots of features, and a mini ENC28J60 ad
 
 uemb1, uemb4 these are my own design (STM32F103VE and STM32F407VE variants are available). includes support for TFT, stereo audio in and out, USB, FTDI RS232, Ethernet and GPIO. Can fit into a Hammond 1591 enclosure.
  <a href="https://drive.google.com/uc?export=view&id=0B1Zk1jXs2BXaWU9YeEZyUlQ4QmM"><img src="https://drive.google.com/uc?export=view&id=0B1Zk1jXs2BXaWU9YeEZyUlQ4QmM" style="width: 500px; max-width: 100%; height: auto" title="Click for the larger version." /></a>
+ <a href="https://drive.google.com/uc?export=view&id=0B1Zk1jXs2BXaS2JqOW43dU5PT00"><img src="https://drive.google.com/uc?export=view&id=0B1Zk1jXs2BXaS2JqOW43dU5PT00" style="width: 500px; max-width: 100%; height: auto" title="Click for the larger version." /></a>
 
 stm32f4-discovery
 <a href="https://drive.google.com/uc?export=view&id=0B1Zk1jXs2BXaZzFxSXM1TkdKMm8"><img src="https://drive.google.com/uc?export=view&id=0B1Zk1jXs2BXaZzFxSXM1TkdKMm8" style="width: 500px; max-width: 100%; height: auto" title="Click for the larger version." /></a>

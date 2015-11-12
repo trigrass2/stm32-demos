@@ -6,10 +6,8 @@
 #include <string.h>
 #include <stdint.h>
 #include <stdbool.h>
+#include <pthread.h>
 
-#include "FreeRTOS.h"
-#include "task.h"
-#include "queue.h"
 #include "leds.h"
 #include "cutensils.h"
 #include "lcd.h"
@@ -17,39 +15,25 @@
 #include "graphics.h"
 #include "clock.h"
 
-
-void init_devices(void* p);
-
-#define  init_devices_task() xTaskCreate(init_devices,"init",configMINIMAL_STACK_SIZE + 192, NULL, tskIDLE_PRIORITY + 1, NULL)
-
 logger_t mainlog;
 
-void init_devices(void* p)
+int main(void)
 {
-	(void)p;
+	flash_led(LED1);
 
 	log_init(&mainlog, "main");
 
 	// init lcd
 	lcd_init();
 	graphics_init();
-    lcd_backlight_init();
-    lcd_backlight_auto_off(false);
-    lcd_backlight_enable();
-    set_background_colour(LIGHT_ORANGE);
+	lcd_backlight_init();
+	lcd_backlight_auto_off(false);
+	lcd_backlight_enable();
+	set_background_colour(LIGHT_ORANGE);
 
-    clock_init(true, (point_t){300, 48}, (point_t){10, 10});
+	clock_init(true, (point_t){300, 48}, (point_t){10, 10});
 
-	vTaskDelete(NULL);
-}
-
-int main(void)
-{
-	flash_led(LED1);
-
-	init_devices_task();
-
-	vTaskStartScheduler();
+	pthread_exit(0);
 
 	return 0;
 }

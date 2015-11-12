@@ -5,6 +5,7 @@ PROJECT_NAME = config-file-demo
 
 SOURCE = main.c
 
+USE_PTHREADS = 1
 USE_FREERTOS = 1
 USE_MINLIBC = 1
 USE_LOGGER = 1

@@ -5,6 +5,7 @@ PROJECT_NAME = lcd-clock
 SOURCE = main.c
 SOURCE += clock.c
 
+USE_PTHREADS=1
 USE_FREERTOS = 1
 USE_MINLIBC = 1
 USE_LOGGER = 1

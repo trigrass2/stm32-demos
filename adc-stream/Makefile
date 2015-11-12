@@ -4,6 +4,7 @@ PROJECT_NAME = adc-stream
 
 SOURCE = main.c
 
+USE_PTHREADS = 1
 USE_FREERTOS = 1
 USE_MINLIBC = 1
 

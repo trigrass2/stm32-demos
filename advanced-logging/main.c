@@ -7,10 +7,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdint.h>
+#include <pthread.h>
 
-#include "FreeRTOS.h"
-#include "task.h"
-#include "queue.h"
 #include "leds.h"
 #include "sdfs.h"
 #include "net.h"
@@ -29,69 +27,14 @@
  *
  ***************************/
 
-void init_devices(void* p);
-void test(void*p);
-
-#define  init_devices_task() xTaskCreate(init_devices, "init", configMINIMAL_STACK_SIZE + 192, NULL, tskIDLE_PRIORITY + 1, NULL)
-#define  test_task() xTaskCreate(test, "test", configMINIMAL_STACK_SIZE + 128, NULL, tskIDLE_PRIORITY + 1, NULL)
 
 static netconf_t netconf;
 static logger_t log;
 static shellserver_t shell;
 
-void init_devices(void* p)
+
+void test()
 {
-    (void)p;
-
-    // init logger
-    log_init(&log, "main");
-
-    // init filesystem
-    sdfs_init();
-    log_info(&log, "wait for filesystem...");
-    while(!sdfs_ready());
-
-    // init networking
-    net_config(&netconf, DEFAULT_RESOLV_CONF_PATH, DEFAULT_NETIF_CONF_PATH);
-    net_init(&netconf);
-    while(!wait_for_address(&netconf));
-
-    // sure the log directory exists
-    mkdir("/var", 0777);
-    mkdir("/var/log", 0777);
-
-    // add file logger - can add any regular file, device file, tcp client socket, or STDOUT_FILENO/STDERR_FILENO
-    int syslog = open("/var/log/syslog", O_WRONLY|O_APPEND|O_CREAT);
-    if(syslog != -1)
-        log_add_handler(syslog);
-    else
-        log_error(&log, "failed to open syslog...");
-
-    // adding a udp handler is a special case
-    int udplog = add_udp_log_handler("192.168.20.112", 32000);
-    if(udplog == -1)
-        log_error(&log, "failed to start udp log...");
-
-
-    install_builtin_cmds(&shell);
-    install_fs_cmds(&shell);
-    install_net_cmds(&shell);
-    install_os_cmds(&shell);
-
-    if(start_shell(&shell, NULL, DEFAULT_SHELL_CONFIG_PATH, true, true, -1, -1) == -1)
-    {
-        log_error(&log, "failed to start shell...");
-    }
-
-    // done
-    log_info(&log, "device init done...");
-    test_task();
-    vTaskDelete(NULL);
-}
-
-void test(void*p)
-{
-    (void)p;
     int count = 0;
     logger_t another_log;
 
@@ -121,11 +64,65 @@ int main(void)
 {
     flash_led(LED1);
 
-    init_devices_task();
+    // init logger
+	log_init(&log, "main");
 
-    vTaskStartScheduler();
+	// init filesystem
+	sdfs_init();
+	log_info(&log, "wait for filesystem...");
+	while(!sdfs_ready());
 
-    printf("Error: Scheduler Exited\n");
+	// init networking
+	net_config(&netconf, DEFAULT_RESOLV_CONF_PATH, DEFAULT_NETIF_CONF_PATH);
+	net_init(&netconf);
+	while(!wait_for_address(&netconf));
 
+	// sure the log directory exists
+	mkdir("/var", 0777);
+	mkdir("/var/log", 0777);
+
+	// add file logger - can add any regular file, device file, tcp client socket, or STDOUT_FILENO/STDERR_FILENO
+	int syslog = open("/var/log/syslog", O_WRONLY|O_APPEND|O_CREAT);
+	if(syslog != -1)
+	{
+		log_add_handler(syslog);
+	}
+	else
+	{
+		log_error(&log, "failed to open syslog...");
+	}
+
+	// adding a udp handler is a special case
+	int udplog = add_udp_log_handler("192.168.20.112", 32000);
+
+	if(udplog == -1)
+	{
+		log_error(&log, "failed to start udp log...");
+	}
+
+
+	install_builtin_cmds(&shell);
+	install_fs_cmds(&shell);
+	install_net_cmds(&shell);
+	install_os_cmds(&shell);
+
+	if(start_shell(&shell, NULL, DEFAULT_SHELL_CONFIG_PATH, true, true, -1, -1) == -1)
+	{
+		log_error(&log, "failed to start shell...");
+	}
+
+	// done
+	log_info(&log, "device init done...");
+
+	// start demo task
+    pthread_t app_thread;
+	pthread_attr_t app_attr;
+	pthread_attr_init(&app_attr);
+	pthread_attr_setstacksize(&app_attr, 256);
+	pthread_attr_setdetachstate(&app_attr, PTHREAD_CREATE_DETACHED);
+	pthread_create(&app_thread, &app_attr, (void*(*)(void*))test, NULL);
+	pthread_attr_destroy(&app_attr);
+
+	pthread_exit(0);
     return 0;
 }

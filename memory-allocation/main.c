@@ -1,13 +1,11 @@
 
-
-#include "FreeRTOS.h"
-#include "task.h"
-#include "queue.h"
-#include "leds.h"
-
-#include "system.h"
 #include <stdlib.h>
 #include <string.h>
+#include <pthread.h>
+#include <unistd.h>
+
+#include "leds.h"
+#include "heap_ccram.h"
 
 #define LOOPS 5           // times to repeat the same allocation cycle
 #define HEAP_BLOCK_SIZE 8 // copied from heap_ccram.c
@@ -45,28 +43,6 @@ void test_malloc_free(const char* name, void*(*alloc)(size_t), void(*freee)(void
     }
 }
 
-void test_task(void*p)
-{
-    (void)p;
-
-    int loop = 0;
-    for(;;)
-    {
-        printf("test loop %d\n", loop++);
-        test_malloc_free("main", malloc, free, xPortGetFreeHeapSize());
-        test_malloc_free("ccram", pvPortMalloc_ccram, vPortFree_ccram, xPortGetFreeHeapSize_ccram());
-        toggle_led(LED2);
-        vTaskDelay(250/portTICK_RATE_MS);
-    }
-}
-
-
-#define  start_test_task() xTaskCreate(test_task,\
-                                        "test task",\
-                                        configMINIMAL_STACK_SIZE + 256, \
-                                        NULL,\
-                                        tskIDLE_PRIORITY + 3, \
-                                        NULL)
 
 int main(void)
 {
@@ -75,18 +51,17 @@ int main(void)
 
     printf("test memory allocation in ccram and normal ram\n");
 
-    // todo - the standard malloc (uses vPortMalloc(), heap2.c) causes the scheduler to exit right away when used for the test here!! thats bad
-//    test_malloc_free("main", malloc, free, xPortGetFreeHeapSize());
-    test_malloc_free("ccram", pvPortMalloc_ccram, vPortFree_ccram, xPortGetFreeHeapSize_ccram());
+    int loop = 0;
+	for(;;)
+	{
+		printf("test loop %d\n", loop++);
+		test_malloc_free("main", malloc, free, xPortGetFreeHeapSize());
+		test_malloc_free("ccram", malloc_ccram, free_ccram, xPortGetFreeHeapSize_ccram());
+		toggle_led(LED2);
+		usleep(250000);
+	}
 
-    // use a custom task to flash another led
-    start_test_task();
-
-    // start up the scheduler
-    vTaskStartScheduler();
-
-    printf("scheduler exited!!!\n");
-
+	pthread_exit(0);
     // should never get here
     return 0;
 }

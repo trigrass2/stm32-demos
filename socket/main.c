@@ -7,52 +7,19 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdint.h>
+#include <pthread.h>
 
-#include "FreeRTOS.h"
-#include "task.h"
-#include "queue.h"
 #include "leds.h"
 #include "sdfs.h"
 #include "net.h"
 #include "cutensils.h"
 #include "nutensils.h"
 
-
-void init_devices(void* p);
-void test(void*p);
-
-#define  init_devices_task() xTaskCreate(init_devices, "init", configMINIMAL_STACK_SIZE + 192, NULL, tskIDLE_PRIORITY + 1, NULL)
-#define  test_task() xTaskCreate(test, "test", configMINIMAL_STACK_SIZE + 128, NULL, tskIDLE_PRIORITY + 1, NULL)
-
 static netconf_t netconf;
 static logger_t log;
 
-void init_devices(void* p)
+void test()
 {
-    (void)p;
-
-    // init logger
-    log_init(&log, "main");
-
-    // init filesystem
-    sdfs_init();
-    log_info(&log, "wait for filesystem...");
-    while(!sdfs_ready());
-
-    // init networking
-    net_config(&netconf, DEFAULT_RESOLV_CONF_PATH, DEFAULT_NETIF_CONF_PATH);
-    net_init(&netconf);
-    while(!wait_for_address(&netconf));
-
-    // done
-    log_info(&log, "device init done...");
-    test_task();
-    vTaskDelete(NULL);
-}
-
-void test(void*p)
-{
-    (void)p;
     int fd;
     int length;
     char buf[128];
@@ -86,17 +53,38 @@ void test(void*p)
 
         sleep(2);
     }
+
+	pthread_exit(0);
 }
 
 int main(void)
 {
     flash_led(LED1);
 
-    init_devices_task();
+    // init logger
+    log_init(&log, "main");
 
-    vTaskStartScheduler();
+    // init filesystem
+    sdfs_init();
+    log_info(&log, "wait for filesystem...");
+    while(!sdfs_ready());
 
-    printf("Error: Scheduler Exited\n");
+    // init networking
+    net_config(&netconf, DEFAULT_RESOLV_CONF_PATH, DEFAULT_NETIF_CONF_PATH);
+    net_init(&netconf);
+    while(!wait_for_address(&netconf));
 
+    // done
+    log_info(&log, "device init done...");
+
+    pthread_t app_thread;
+	pthread_attr_t app_attr;
+	pthread_attr_init(&app_attr);
+	pthread_attr_setstacksize(&app_attr, 256);
+	pthread_attr_setdetachstate(&app_attr, PTHREAD_CREATE_DETACHED);
+	pthread_create(&app_thread, &app_attr, (void*(*)(void*))test, NULL);
+	pthread_attr_destroy(&app_attr);
+
+	pthread_exit(0);
     return 0;
 }

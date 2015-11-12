@@ -7,10 +7,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdint.h>
+#include <pthread.h>
 
-#include "FreeRTOS.h"
-#include "task.h"
-#include "queue.h"
 #include "leds.h"
 #include "sdfs.h"
 #include "net.h"
@@ -23,10 +21,7 @@
 #include "builtins.h"
 
 
-void init_devices(void* p);
 int custom_cmd_handler(int fdes, const char** args, unsigned char nargs);
-
-#define  init_devices_task() xTaskCreate(init_devices, "init", configMINIMAL_STACK_SIZE + 192, NULL, tskIDLE_PRIORITY + 1, NULL)
 
 static netconf_t netconf;
 static logger_t log;
@@ -59,47 +54,36 @@ int custom_cmd_handler(int fdes, const char** args, unsigned char nargs)
     return SHELL_CMD_EXIT;
 }
 
-void init_devices(void* p)
-{
-    (void)p;
-
-    // init logger
-    log_init(&log, "main");
-
-    // init filesystem
-    sdfs_init();
-    log_info(&log, "wait for filesystem...");
-    while(!sdfs_ready());
-
-    // init networking
-    net_config(&netconf, DEFAULT_RESOLV_CONF_PATH, DEFAULT_NETIF_CONF_PATH);
-    net_init(&netconf);
-    while(!wait_for_address(&netconf));
-
-    log_info(&log, "device init done...");
-
-    install_builtin_cmds(&shell);
-    install_fs_cmds(&shell);
-    install_net_cmds(&shell);
-    install_os_cmds(&shell);
-    register_command(&shell, &sh_custom_cmd, NULL, NULL, NULL);
-
-    start_shell(&shell, NULL, DEFAULT_SHELL_CONFIG_PATH, true, true, -1, -1);
-
-    log_info(&log, "service init done...");
-
-    vTaskDelete(NULL);
-}
-
 int main(void)
 {
     flash_led(LED1);
 
-    init_devices_task();
+    // init logger
+	log_init(&log, "main");
 
-    vTaskStartScheduler();
+	// init filesystem
+	sdfs_init();
+	log_info(&log, "wait for filesystem...");
+	while(!sdfs_ready());
 
-    printf("Error: Scheduler Exited\n");
+	// init networking
+	net_config(&netconf, DEFAULT_RESOLV_CONF_PATH, DEFAULT_NETIF_CONF_PATH);
+	net_init(&netconf);
+	while(!wait_for_address(&netconf));
+
+	log_info(&log, "device init done...");
+
+	install_builtin_cmds(&shell);
+	install_fs_cmds(&shell);
+	install_net_cmds(&shell);
+	install_os_cmds(&shell);
+	register_command(&shell, &sh_custom_cmd, NULL, NULL, NULL);
+
+	start_shell(&shell, NULL, DEFAULT_SHELL_CONFIG_PATH, true, true, -1, -1);
+
+	log_info(&log, "service init done...");
+
+	pthread_exit(0);
 
     return 0;
 }

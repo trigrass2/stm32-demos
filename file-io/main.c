@@ -3,10 +3,8 @@
 #include <fcntl.h>
 #include <stdio.h>
 #include <stdbool.h>
-#include "FreeRTOS.h"
-#include "task.h"
-#include "queue.h"
-#include "semphr.h"
+#include <pthread.h>
+
 #include "leds.h"
 #include "usart.h"
 #include "sdfs.h"
@@ -25,24 +23,6 @@ typedef struct {
     logger_t log;
 } appdata_t;
 
-void test_task(void* ctx);
-void init_devices(void* ctx);
-
-#define  init_devices_task(appdata) xTaskCreate(init_devices,\
-                                         "init devices", \
-                                         configMINIMAL_STACK_SIZE + 256, \
-                                         appdata, \
-                                         tskIDLE_PRIORITY + 1, \
-                                         NULL)
-
-#define  start_app_task(appdata) xTaskCreate(test_task,\
-                                       "test task",\
-                                       configMINIMAL_STACK_SIZE + 256, \
-                                       appdata,\
-                                       tskIDLE_PRIORITY + 1, \
-                                       NULL)
-
-
 /**
  * the test device is to be named /dev/ttyS0, attached to the CONSOLE_USART
  * Note: the CONSOLE_USART transmit is captured by default for use by SDTOUT
@@ -53,30 +33,6 @@ void init_devices(void* ctx);
 #define TEST_USART_MODE        O_RDONLY
 #define TEST_USART_BUFSIZE    128
 #define TEST_DATAFILE        "datafile.txt"
-
-/**
- * devices must be initialised before the application can make use of them...
- */
-void init_devices(void* ctx)
-{
-    appdata_t* appdata = (appdata_t*)ctx;
-
-    log_init(&appdata->log, "main");
-
-    // initialise filesystem
-    sdfs_init();
-    log_info(&appdata->log, "wait for filesystem...");
-    while(!sdfs_ready());
-
-    // initialize the test usart device
-    log_info(&appdata->log, "init %s on %s...", TEST_USART_DEV, "TEST_USART");
-    usart_init(TEST_USART, TEST_USART_DEV, false);
-
-    // start up the application
-    start_app_task(appdata);
-
-    vTaskDelete(NULL);
-}
 
 /**
  * example of an application task
@@ -184,12 +140,26 @@ int main(void)
 
     appdata_t appdata;
 
-    // create task to initialise hardware devices
-    init_devices_task(&appdata);
+    log_init(&appdata.log, "main");
 
-    // start up the scheduler
-    vTaskStartScheduler();
+	// initialise filesystem
+	sdfs_init();
+	log_info(&appdata.log, "wait for filesystem...");
+	while(!sdfs_ready());
 
-    // should never get here
+	// initialize the test usart device
+	log_info(&appdata.log, "init %s on %s...", TEST_USART_DEV, "TEST_USART");
+	usart_init(TEST_USART, TEST_USART_DEV, false);
+
+	// start up the application
+    pthread_t app_thread;
+	pthread_attr_t app_attr;
+	pthread_attr_init(&app_attr);
+	pthread_attr_setstacksize(&app_attr, 384);
+	pthread_attr_setdetachstate(&app_attr, PTHREAD_CREATE_DETACHED);
+	pthread_create(&app_thread, &app_attr, (void*(*)(void*))test_task, &appdata);
+	pthread_attr_destroy(&app_attr);
+
+	pthread_exit(0);
     return 0;
 }

@@ -5,18 +5,12 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdint.h>
+#include <pthread.h>
 
-#include "FreeRTOS.h"
-#include "task.h"
-#include "queue.h"
 #include "leds.h"
 #include "sdfs.h"
 #include "cutensils.h"
 
-void test(void*p);
-
-#define  init_devices_task() xTaskCreate(init_devices,"init",configMINIMAL_STACK_SIZE + 256, NULL, tskIDLE_PRIORITY + 1, NULL)
-#define  test_task() xTaskCreate(test,"test",configMINIMAL_STACK_SIZE + 256, NULL, tskIDLE_PRIORITY + 1, NULL)
 
 static logger_t log;
 bool device_init_done = false;
@@ -28,24 +22,8 @@ void dump_task_info()
 	log_info(&log, buffer);
 }
 
-void init_devices(void* p)
+void test()
 {
-	(void)p;
-
-	log_init(&log, "main");
-
-	sdfs_init();
-	log_info(&log, "wait for filesystem...");
-	while(!sdfs_ready());
-
-	test_task();
-
-	vTaskDelete(NULL);
-}
-
-void test(void*p)
-{
-    (void)p;
     bool result;
     const uint8_t* filename = (const uint8_t*)"/home/user/test.conf";
     uint8_t buffer[64];
@@ -114,17 +92,29 @@ void test(void*p)
 
         sleep(10);
     }
+
+	pthread_exit(0);
 }
 
 int main(void)
 {
 	flash_led(LED1);
 
-	init_devices_task();
+	log_init(&log, "main");
 
-	vTaskStartScheduler();
+	sdfs_init();
+	log_info(&log, "wait for filesystem...");
+	while(!sdfs_ready());
 
-	printf("Error: Scheduler Exited\n");
+	// start demo app
+    pthread_t app_thread;
+	pthread_attr_t app_attr;
+	pthread_attr_init(&app_attr);
+	pthread_attr_setstacksize(&app_attr, 384);
+	pthread_attr_setdetachstate(&app_attr, PTHREAD_CREATE_DETACHED);
+	pthread_create(&app_thread, &app_attr, (void*(*)(void*))test, NULL);
+	pthread_attr_destroy(&app_attr);
 
+	pthread_exit(0);
 	return 0;
 }

@@ -5,10 +5,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdint.h>
+#include <pthread.h>
 
-#include "FreeRTOS.h"
-#include "task.h"
-#include "queue.h"
 #include "leds.h"
 #include "sdfs.h"
 #include "net.h"
@@ -28,18 +26,13 @@
 #include "statusbar.h"
 #include "touch_key.h"
 
-void init_devices(void* p);
-
-#define  init_devices_task() xTaskCreate(init_devices,"init",configMINIMAL_STACK_SIZE + 192, NULL, tskIDLE_PRIORITY + 1, NULL)
-
 static shellserver_t sh;
 static netconf_t netconf;
 static logger_t mainlog;
 
-void init_devices(void* p)
+int main(void)
 {
-    (void)p;
-
+    flash_led(LED1);
     // init logger
     log_init(&mainlog, "main");
 
@@ -74,13 +67,6 @@ void init_devices(void* p)
 
     log_info(&mainlog, "service init done...");
 
-    vTaskDelete(NULL);
-}
-
-int main(void)
-{
-    flash_led(LED1);
-    init_devices_task();
-    vTaskStartScheduler();
+    pthread_exit(0);
     return 0;
 }

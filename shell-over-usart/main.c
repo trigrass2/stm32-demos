@@ -12,10 +12,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdint.h>
+#include <pthread.h>
 
-#include "FreeRTOS.h"
-#include "task.h"
-#include "queue.h"
 #include "leds.h"
 #include "sdfs.h"
 #include "cutensils.h"
@@ -28,10 +26,8 @@
 #include "usart.h"
 
 
-void init_devices(void* p);
 int custom_cmd_handler(int fdes, const char** args, unsigned char nargs);
 
-#define  init_devices_task() xTaskCreate(init_devices, "init", configMINIMAL_STACK_SIZE + 512, NULL, tskIDLE_PRIORITY + 1, NULL)
 
 #if DEMO_WITH_ETHERNET_INCLUDED
 static netconf_t netconf;
@@ -66,9 +62,10 @@ int custom_cmd_handler(int fdes, const char** args, unsigned char nargs)
     return SHELL_CMD_EXIT;
 }
 
-void init_devices(void* p)
+
+int main(void)
 {
-    (void)p;
+    flash_led(LED1);
 
     // init logger
     log_init(&log, "main");
@@ -105,18 +102,7 @@ void init_devices(void* p)
 
     log_info(&log, "service init done...");
 
-    vTaskDelete(NULL);
-}
-
-int main(void)
-{
-    flash_led(LED1);
-
-    init_devices_task();
-
-    vTaskStartScheduler();
-
-    printf("Error: Scheduler Exited\n");
+	pthread_exit(0);
 
     return 0;
 }

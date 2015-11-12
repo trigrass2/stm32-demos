@@ -4,55 +4,13 @@
 #include <fcntl.h>
 #include <stdio.h>
 #include <stdbool.h>
-#include "FreeRTOS.h"
-#include "task.h"
-#include "queue.h"
-#include "semphr.h"
+#include <pthread.h>
 #include "leds.h"
 #include "usart.h"
 #include "sdfs.h"
 #include "logger.h"
 #include "systime.h"
 
-
-void test_task(void* ctx);
-void init_devices(void* ctx);
-
-#define  init_devices_task() xTaskCreate(init_devices,\
-                                         "init devices", \
-                                         configMINIMAL_STACK_SIZE + 256, \
-                                         NULL, \
-                                         tskIDLE_PRIORITY + 1, \
-                                         NULL)
-
-#define  start_app_task() xTaskCreate(test_task,\
-                                       "test task",\
-                                       configMINIMAL_STACK_SIZE + 256, \
-                                       NULL,\
-                                       tskIDLE_PRIORITY + 1, \
-                                       NULL)
-
-
-/**
- * devices must be initialised before the application can make use of them...
- */
-void init_devices(void* ctx)
-{
-    logger_t log;
-    (void)ctx;
-
-    log_init(&log, "main");
-
-    // initialise filesystem
-    sdfs_init();
-    log_info(&log, "wait for filesystem...");
-    while(!sdfs_ready());
-
-    // start up the application
-    start_app_task();
-
-    vTaskDelete(NULL);
-}
 
 // 8192 characters
 const char test_data_set[] =
@@ -190,10 +148,8 @@ test_data_t test_data[] = {
  * this task performs a data logger function, reading data from USART2
  * and logging it to a file.
  */
-void test_task(void* ctx)
+void test_task()
 {
-    (void)ctx;
-
     logger_t log;
     int datafile;
     int mode;
@@ -255,21 +211,33 @@ void test_task(void* ctx)
                         (double)td->max, (double)td->average, (double)td->min, (double)td->kBps);
     }
 
-    vTaskDelete(NULL);
+    pthread_exit(0);
 }
 
 
 int main(void)
 {
-    // use the system led flasher to flash one of the leds
-    flash_led(LED1);
+	// use the system led flasher to flash one of the leds
+	flash_led(LED1);
 
-    // create task to initialise hardware devices
-    init_devices_task();
+	logger_t log;
 
-    // start up the scheduler
-    vTaskStartScheduler();
+	log_init(&log, "main");
 
-    // should never get here
-    return 0;
+	// initialise filesystem
+	sdfs_init();
+	log_info(&log, "wait for filesystem...");
+	while(!sdfs_ready());
+
+	// start up the application
+    pthread_t app_thread;
+	pthread_attr_t app_attr;
+	pthread_attr_init(&app_attr);
+	pthread_attr_setstacksize(&app_attr, 384);
+	pthread_attr_setdetachstate(&app_attr, PTHREAD_CREATE_DETACHED);
+	pthread_create(&app_thread, &app_attr, (void*(*)(void*))test_task, NULL);
+	pthread_attr_destroy(&app_attr);
+
+	pthread_exit(0);
+	return 0;
 }

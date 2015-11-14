@@ -1,24 +1,13 @@
 
 # these may be set from the command line
 
-BOARD ?= uemb1
+BOARD ?= uemb4
 
 PROJECT_NAME ?= pthread-demo
-APP_ADDRESS_OFFSET ?= 0x00000
-USE_MINSTDIO_FLOAT_SUPPORT = 1
-DEBUG_PRINTF_EXCEPTIONS = 1
-USE_FULL_ASSERT = 1
-
-APPDIR = .
 
 ## project source
-SOURCE = $(APPDIR)/main.c
-
-
-CFLAGS =
-
-# configuration headers
-CFLAGS += -I $(APPDIR)/config
+SOURCE = ./main.c
+CFLAGS = -I./config
 
 USE_PTHREADS = 1
 USE_FREERTOS= 1
@@ -29,7 +18,11 @@ USE_DRIVER_SYSTEM_TIMER = 1
 USE_DRIVER_LEDS = 1
 USE_DRIVER_USART = 1
 USE_STDIO_USART = 1
+USE_MINSTDIO_FLOAT_SUPPORT = 1
+DEBUG_PRINTF_EXCEPTIONS = 1
+USE_FULL_ASSERT = 1
 
+APP_ADDRESS_OFFSET = 0x00000
 
 STM32DEVSUPPORTDIR = ../../appleseed
 ## be sure to include the other makefiles

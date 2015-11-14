@@ -30,8 +30,6 @@ int main()
     thdata data1;
     thdata data2;         /* structs to be passed to threads */
 
-    printf("heap memory used: %d\n", xPortGetFreeHeapSize());
-
     flash_led(LED1);
 
     /* initialize data to pass to thread 1 */
@@ -53,7 +51,12 @@ int main()
     pthread_join(thread2, NULL);
 
     printf("done!\n");
-    printf("heap memory used: %d\n", xPortGetFreeHeapSize());
+
+    while(1)
+    {
+        pthread_create (&thread1, NULL, (void *) &print_message_function, (void *) &data1);
+        pthread_join(thread1, NULL);
+    }
     /* exit */
     exit(0);
 } /* main() */
@@ -67,8 +70,9 @@ void print_message_function ( void *ptr )
     thdata *data;
     data = (thdata *) ptr;  /* type cast to a pointer to thdata */
 
-    /* do the work */
     printf("Thread %d says %s \n", data->thread_no, data->message);
+    sleep(1);
+    /* do the work */
 
     pthread_exit(0); /* exit */
 } /* print_message_function ( void *ptr ) */

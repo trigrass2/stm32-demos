@@ -1,8 +1,8 @@
 ## demo of a custom board support directory - this is just a copy of the stm32f4-discovery board config
 
-## override board configurations in appleseed/stm32-device-support/board/board.mk
+# add the location of the board support directory
 BOARDDIR = ./
-## name the board
+# add the custom board to the boards list
 BOARDS = customboard
 
 ## configure the board

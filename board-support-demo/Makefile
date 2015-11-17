@@ -1,6 +1,6 @@
 
-
-include ./customboard.bsp/board.mk
+BOARD = customboard
+include ./$(BOARD).bsp/board.mk
 
 PROJECT_NAME ?= custom-board-demo
 

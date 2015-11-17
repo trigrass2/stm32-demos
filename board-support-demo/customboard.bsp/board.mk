@@ -2,14 +2,10 @@
 
 ## override board configurations in appleseed/stm32-device-support/board/board.mk
 BOARDDIR = ./
-BOARDS = customboard
-BOARD = customboard
-
 ## name the board
-BOARD_NAME = customboard
+BOARDS = customboard
 
 ## configure the board
-ifeq ($(BOARD),  $(BOARD_NAME))
 # set oscillator frequency
 HSE_VALUE = 8000000
 # set device (choose from devices listed in appleseed/stm32-device-support/device/device.mk)
@@ -18,5 +14,4 @@ DEVICE = stm32f407vg
 ifeq ($(USE_DRIVER_LWIP_NET), 1)
 USE_DRIVER_ENC28J60_PHY = 1
 USE_DRIVER_MII_RMII_PHY = 0
-endif
 endif

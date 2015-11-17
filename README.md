@@ -1,7 +1,7 @@
 stm32-demos
 ===========
 
-This is a collection of demo programs that show how to write programs for the appleseed OS.
+This is a collection of demo programs that show how to write programs for the appleseed OS. Scroll down for pictures!
 
 setup
 -----

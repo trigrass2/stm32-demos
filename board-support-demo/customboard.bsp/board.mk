@@ -1,7 +1,5 @@
 ## demo of a custom board support directory - this is just a copy of the stm32f4-discovery board config
 
-# add the location of the board support directory
-BOARDDIR = ./
 # add the custom board to the boards list
 BOARDS = customboard
 

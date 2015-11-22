@@ -1,6 +1,6 @@
 
+BOARDDIR = ./
 BOARD = customboard
-include ./$(BOARD).bsp/board.mk
 
 PROJECT_NAME ?= custom-board-demo
 

@@ -15,7 +15,7 @@
 #include <pthread.h>
 
 #include "leds.h"
-#include "sdfs.h"
+#include "sdcard_diskio.h"
 #include "cutensils.h"
 #include "nutensils.h"
 #include "shell.h"
@@ -25,6 +25,8 @@
 
 #include "usart.h"
 
+
+static disk_interface_t sddisk;
 
 int custom_cmd_handler(int fdes, const char** args, unsigned char nargs);
 
@@ -71,9 +73,7 @@ int main(void)
     log_init(&log, "main");
 
     // init filesystem
-    sdfs_init();
-    log_info(&log, "wait for filesystem...");
-    while(!sdfs_ready());
+    sdcard_mount(&sddisk, 0);
 
 #if DEMO_WITH_ETHERNET_INCLUDED
     // init networking
@@ -83,7 +83,7 @@ int main(void)
 #endif
 
     // install usart device to use for shell
-    usart_init(CONSOLE_USART, "/dev/ttyS0", false);
+    usart_init(CONSOLE_USART, "/dev/ttyS0", false, USART_FULLDUPLEX);
 
     log_info(&log, "device init done...");
 

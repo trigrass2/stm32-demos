@@ -8,7 +8,7 @@
 #include <pthread.h>
 
 #include "leds.h"
-#include "sdfs.h"
+#include "sdcard_diskio.h"
 #include "net.h"
 #include "cutensils.h"
 #include "nutensils.h"
@@ -26,6 +26,7 @@
 #include "statusbar.h"
 #include "touch_key.h"
 
+static disk_interface_t sddisk;
 static shellserver_t sh;
 static netconf_t netconf;
 static logger_t mainlog;
@@ -47,9 +48,7 @@ int main(void)
     statusbar_init();
 
     // init filesystem
-    sdfs_init();
-    log_info(&mainlog, "wait for filesystem...");
-    while(!sdfs_ready());
+    sdcard_mount(&sddisk, 0);
 
     // init networking
     net_config(&netconf, DEFAULT_RESOLV_CONF_PATH, DEFAULT_NETIF_CONF_PATH);

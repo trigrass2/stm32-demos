@@ -124,6 +124,6 @@ NVIC value of 255. */
 // To be complaint to CMSIS and ST standard peripherals library name convention.
 #define vPortSVCHandler 						SVC_Handler
 #define xPortPendSVHandler 						PendSV_Handler
-#define xPortSysTickHandler 					SysTick_Handler
+//#define xPortSysTickHandler 					SysTick_Handler
 
 #endif /* FREERTOS_CONFIG_H */

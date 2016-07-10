@@ -8,10 +8,11 @@
 #include <pthread.h>
 
 #include "leds.h"
-#include "sdfs.h"
+#include "sdcard_diskio.h"
 #include "cutensils.h"
 
 
+static disk_interface_t sddisk;
 static logger_t log;
 bool device_init_done = false;
 
@@ -102,9 +103,8 @@ int main(void)
 
 	log_init(&log, "main");
 
-	sdfs_init();
-	log_info(&log, "wait for filesystem...");
-	while(!sdfs_ready());
+    // init filesystem
+    sdcard_mount(&sddisk, 0);
 
 	// start demo app
     pthread_t app_thread;

@@ -7,7 +7,7 @@
 
 #include "leds.h"
 #include "usart.h"
-#include "sdfs.h"
+#include "sdcard_diskio.h"
 #include "logger.h"
 
 
@@ -22,6 +22,9 @@
 typedef struct {
     logger_t log;
 } appdata_t;
+
+
+disk_interface_t sddisk;
 
 /**
  * the test device is to be named /dev/ttyS0, attached to the CONSOLE_USART
@@ -143,13 +146,11 @@ int main(void)
     log_init(&appdata.log, "main");
 
 	// initialise filesystem
-	sdfs_init();
-	log_info(&appdata.log, "wait for filesystem...");
-	while(!sdfs_ready());
+    sdcard_mount(&sddisk, 0);
 
 	// initialize the test usart device
 	log_info(&appdata.log, "init %s on %s...", TEST_USART_DEV, "TEST_USART");
-	usart_init(TEST_USART, TEST_USART_DEV, false);
+	usart_init(TEST_USART, TEST_USART_DEV, false, USART_FULLDUPLEX);
 
 	// start up the application
     pthread_t app_thread;

@@ -7,7 +7,7 @@
 #include <pthread.h>
 #include "leds.h"
 #include "usart.h"
-#include "sdfs.h"
+#include "sdcard_diskio.h"
 #include "logger.h"
 #include "systime.h"
 
@@ -109,6 +109,8 @@ typedef struct {
 } test_data_t;
 
 char test_buffer[32768];
+
+disk_interface_t sddisk;
 
 test_data_t test_data[] = {
         {"write.txt", "write", (char*)test_data_set, 1,    3, 1,        0, 10000000, 0, 0},
@@ -225,9 +227,7 @@ int main(void)
 	log_init(&log, "main");
 
 	// initialise filesystem
-	sdfs_init();
-	log_info(&log, "wait for filesystem...");
-	while(!sdfs_ready());
+	sdcard_mount(&sddisk, 0);
 
 	// start up the application
     pthread_t app_thread;

@@ -1,11 +1,12 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include "leds.h"
-#include "sdfs.h"
+#include "sdcard_diskio.h"
 
 #define TEST_FILENAME   "testfile"
 #define TEST_FLASHES   "10"
 
+static disk_interface_t sddisk;
 
 typedef struct {
     FATFS fs;
@@ -27,7 +28,7 @@ int main(void)
 {
     int i;
 
-    if(sdfs_init())
+    if(sdcard_mount(&sddisk, 0) == FR_OK)
     {
         // open a new file for writing
         if(f_open(&appdata.file, TEST_FILENAME, FA_WRITE|FA_OPEN_ALWAYS) == FR_OK)

@@ -10,7 +10,7 @@ The demos are bundled together, and depend upon the appleseed project. Appleseed
 
 ```bash
 git clone https://github.com/drmetal/stm32-demos.git
-git clone https://github.com/drmetal/appleseed.git
+git clone https://github.com/drmetal/lollyjar.git
 ```
 
 sdcard

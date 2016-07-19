@@ -24,7 +24,7 @@ USE_FULL_ASSERT = 1
 
 APP_ADDRESS_OFFSET = 0x00000
 
-STM32DEVSUPPORTDIR = ../../appleseed
+STM32DEVSUPPORTDIR = ../../lollyjar
 ## be sure to include the other makefiles
 include $(STM32DEVSUPPORTDIR)/build-env/setup.mk
 

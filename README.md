@@ -1,12 +1,12 @@
 stm32-demos
 ===========
 
-This is a collection of demo programs that show how to write programs for the appleseed OS. Scroll down for pictures!
+This is a collection of demo programs that show how to write programs for the lollyjar OS. Scroll down for pictures!
 
 setup
 -----
 
-The demos are bundled together, and depend upon the appleseed project. Appleseed should be placed in the same directory alongside the demos.
+The demos are bundled together, and depend upon the lollyjar project. Appleseed should be placed in the same directory alongside the demos.
 
 ```bash
 git clone https://github.com/drmetal/stm32-demos.git
@@ -17,7 +17,7 @@ sdcard
 ------
 
 some of the demos require an sd card inserted, loaded with the base filesystem.
-copy the contents of appleseed/like-posix/base_fs to a card, and plug it into the board.
+copy the contents of lollyjar/like-posix/base_fs to a card, and plug it into the board.
 
 build
 -----

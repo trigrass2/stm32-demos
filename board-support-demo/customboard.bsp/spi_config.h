@@ -30,13 +30,22 @@
  *
  */
 
-#ifndef SYSTIME_CONFIG_H_
-#define SYSTIME_CONFIG_H_
+#ifndef BOARD_SPI_H_
+#define BOARD_SPI_H_
 
-#define SYSTIMER_PERIPH             TIM2
-#define SYSTIMER_IRQ                TIM2_IRQn
-#define SYSTIMER_INT_PRIORITY       2
-#define SYSTIMER_BUS_CLOCK          (SystemCoreClock/2)
-#define SYSTIMER_INTERRUPT_HANDLER  TIM2_IRQHandler
+#define SPI1_FULL_REMAP 0
+#define SPI3_FULL_REMAP 0
 
-#endif // SYSTIME_CONFIG_H_
+/**
+ * only specify chip select's for those SPI's that require them.
+ * (comment out those that are not needed)
+ */
+//#define SPI1_NSS_PORT 	GPIO
+//#define SPI1_NSS_PIN 	GPIO_PIN_
+//#define SPI2_NSS_PORT 	GPIO
+//#define SPI2_NSS_PIN 	GPIO_PIN_
+//#define SPI2_NSS_PORT 	GPIO
+//#define SPI2_NSS_PIN 	GPIO_PIN_
+
+#endif /* BOARD_SPI_H_ */
+

@@ -6,7 +6,7 @@ BOARDS = customboard
 ## configure the board
 # set oscillator frequency
 HSE_VALUE = 8000000
-# set device (choose from devices listed in appleseed/stm32-device-support/device/device.mk)
+# set device (choose from devices listed in like-posix/stm32-device-support/device/device.mk)
 DEVICE = STM32F407xx
 # PHY selection is a board level thing 
 ifeq ($(USE_DRIVER_LWIP_NET), 1)

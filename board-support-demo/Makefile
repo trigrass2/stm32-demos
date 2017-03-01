@@ -24,7 +24,7 @@ USE_FULL_ASSERT = 1
 APP_ADDRESS_OFFSET = 0x00000
 
 ## be sure to include the other makefiles
-STM32DEVSUPPORTDIR = ../../lollyjar
+STM32DEVSUPPORTDIR = ../../like-posix
 include $(STM32DEVSUPPORTDIR)/build-env/setup.mk
 
 

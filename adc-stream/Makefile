@@ -18,5 +18,5 @@ DEBUG_PRINTF_EXCEPTIONS = 1
 USE_LOGGER = 1
 USE_STDIO_USART = 1
 	
-STM32DEVSUPPORTDIR = ../../lollyjar
+STM32DEVSUPPORTDIR = ../../like-posix
 include $(STM32DEVSUPPORTDIR)/build-env/setup.mk

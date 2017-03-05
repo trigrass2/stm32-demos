@@ -80,7 +80,7 @@ int main(void)
 #if TEST_DEVICE
 	uint8_t buffer[32];
 
-	SPI_HANDLE_t spih1 = spi_init_devicefile("/dev/ttyS0", SPI1, true, 10000000, SPI_FIRSTBIT_MSB, SPI_PHASE_1EDGE, SPI_POLARITY_LOW, SPI_DATASIZE_8BIT);
+	SPI_HANDLE_t spih1 = spi_init_tty_device("/dev/ttyS0", SPI1, true, 10000000, SPI_FIRSTBIT_MSB, SPI_PHASE_1EDGE, SPI_POLARITY_LOW, SPI_DATASIZE_8BIT);
 
 	int ret;
 

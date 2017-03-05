@@ -150,7 +150,7 @@ int main(void)
 
 	// initialize the test usart device
 	log_info(&appdata.log, "init %s on %s...", TEST_USART_DEV, "TEST_USART");
-	usart_init(TEST_USART, TEST_USART_DEV, false, USART_FULLDUPLEX);
+	usart_create_dev(TEST_USART_DEV, TEST_USART, false, USART_FULLDUPLEX, 115200);
 
 	// start up the application
     pthread_t app_thread;

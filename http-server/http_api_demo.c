@@ -8,7 +8,7 @@
 #include <sys/time.h>
 #include <fcntl.h>
 #include <unistd.h>
-#include <stdio.h>
+#include <minlibc/stdio.h>
 
 #include "net.h"
 #include "system.h"

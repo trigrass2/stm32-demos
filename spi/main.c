@@ -50,7 +50,7 @@ int main(void)
 		byte = spi_put_async(spih1, (const uint8_t*)"12345", 5);
 		count = 0;
 		while(count < 5) {
-			count += spi_get_async(spih1, buffer, 5);
+			count += spi_get_async(spih1, buffer, 5, 1000);
 		}
 		spi_set_ss(spih1);
 
@@ -60,7 +60,7 @@ int main(void)
 		byte = spi_put_async(spih2, (const uint8_t*)"12345", 5);
 		count = 0;
 		while(count < 5) {
-			count += spi_get_async(spih2, buffer, 5);
+			count += spi_get_async(spih2, buffer, 5, 1000);
 		}
 		spi_set_ss(spih2);
 
@@ -69,7 +69,7 @@ int main(void)
 		byte = spi_put_async(spih3, (const uint8_t*)"12345", 5);
 		count = 0;
 		while(count < 5) {
-			count += spi_get_async(spih3, buffer, 5);
+			count += spi_get_async(spih3, buffer, 5, 1000);
 		}
 		spi_set_ss(spih3);
 

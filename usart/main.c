@@ -10,8 +10,8 @@
 #include "logger.h"
 
 #define TEST_POLLED 0
-#define TEST_INTERRUPT 1
-#define TEST_DEVICE 0
+#define TEST_INTERRUPT 0
+#define TEST_DEVICE 1
 
 disk_interface_t sddisk;
 
@@ -63,14 +63,13 @@ int main(void)
 
 #if TEST_DEVICE
 	uint8_t buffer[32];
-    uint8_t count = 0;
+	int ret;
 	log_info(NULL, "/dev file test");
 
-	USART_HANDLE_t usart_d = usart_create_dev("/dev/ttyS0", USART2, true, USART_FULLDUPLEX, 115200, 32);
+	USART_HANDLE_t usart_d = usart_create_dev("/dev/ttyS0", USART2, USART_FULLDUPLEX, 115200, 32);
 
 	assert_true(usart_d != USART_INVALID_HANDLE);
 
-	int ret;
 
 	while(1) {
 		int ttys0_fd = open("/dev/ttyS0", O_RDWR);

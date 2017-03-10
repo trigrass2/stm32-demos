@@ -83,7 +83,7 @@ int main(void)
 #endif
 
     // install usart device to use for shell
-    usart_create_dev("/dev/ttyS0", CONSOLE_USART, false, USART_FULLDUPLEX, 115200, 128);
+    usart_create_dev("/dev/ttyS0", USART2, USART_FULLDUPLEX, 115200, 128);
 
     log_info(&log, "device init done...");
 

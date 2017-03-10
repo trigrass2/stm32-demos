@@ -83,7 +83,7 @@ int main(void)
 #endif
 
     // install usart device to use for shell
-    usart_create_dev("/dev/ttyS0", CONSOLE_USART, false, USART_FULLDUPLEX, 115200);
+    usart_create_dev("/dev/ttyS0", CONSOLE_USART, false, USART_FULLDUPLEX, 115200, 128);
 
     log_info(&log, "device init done...");
 
@@ -96,7 +96,7 @@ int main(void)
     install_builtin_cmds(&shell);
 
     register_command(&shell, &sh_custom_cmd, NULL, NULL, NULL);
-    int fdes = open("/dev/ttyS0", O_RDWR, 128);
+    int fdes = open("/dev/ttyS0", O_RDWR);
 
     start_shell(&shell, NULL, NULL, true, false, fdes, fdes);
 

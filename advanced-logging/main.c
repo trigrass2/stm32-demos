@@ -47,12 +47,10 @@ void test()
     {
         log_info(&log, "demo %s messsage %d", "info", count);
         log_debug(&log, "demo %s messsage %d", "debug", count);
-        log_edebug(&log, "demo %s messsage %d", "edebug", count);
         log_warning(&log, "demo %s messsage %d", "warning", count);
         log_error(&log, "demo %s messsage %d", "error", count);
         log_info(&another_log, "demo %s messsage %d", "info", count);
         log_debug(&another_log, "demo %s messsage %d", "debug", count);
-        log_edebug(&another_log, "demo %s messsage %d", "edebug", count);
         log_warning(&another_log, "demo %s messsage %d", "warning", count);
         log_error(&another_log, "demo %s messsage %d", "error", count);
         toggle_led(LED2);

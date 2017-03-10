@@ -9,17 +9,14 @@
 #include "sdcard_diskio.h"
 #include "logger.h"
 
-#define TEST_POLLED 1
-#define TEST_INTERRUPT 0
+#define TEST_POLLED 0
+#define TEST_INTERRUPT 1
 #define TEST_DEVICE 0
 
 disk_interface_t sddisk;
 
 int main(void)
 {
-	uint8_t buffer[32];
-	uint8_t byte = 0x42;
-    uint8_t count = 0;
 
 	flash_led(LED1);
 
@@ -41,6 +38,8 @@ int main(void)
 #endif
 
 #if TEST_INTERRUPT
+	uint8_t buffer[32];
+    uint8_t count = 0;
 	log_info(NULL, "async test");
 	USART_HANDLE_t usart_a = usart_create_async(USART2, true, USART_FULLDUPLEX, 115200, 5);
 
@@ -63,6 +62,8 @@ int main(void)
 #endif
 
 #if TEST_DEVICE
+	uint8_t buffer[32];
+    uint8_t count = 0;
 	log_info(NULL, "/dev file test");
 
 	USART_HANDLE_t usart_d = usart_create_dev("/dev/ttyS0", USART2, true, USART_FULLDUPLEX, 115200, 32);

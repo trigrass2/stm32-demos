@@ -12,8 +12,8 @@
 #include "leds.h"
 #include "sdcard_diskio.h"
 #include "net.h"
-#include "cutensils.h"
-#include "nutensils.h"
+#include "logger.h"
+#include "sock_utils.h"
 
 static disk_interface_t sddisk;
 static netconf_t netconf;

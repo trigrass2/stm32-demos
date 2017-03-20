@@ -12,8 +12,8 @@
 #include "leds.h"
 #include "sdcard_diskio.h"
 #include "net.h"
-#include "cutensils.h"
-#include "nutensils.h"
+#include "logger.h"
+#include "shell.h"
 
 #include "shell.h"
 #include "net_cmds.h"

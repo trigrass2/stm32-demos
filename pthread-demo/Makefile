@@ -24,9 +24,9 @@ USE_FULL_ASSERT = 1
 
 APP_ADDRESS_OFFSET = 0x00000
 
-STM32DEVSUPPORTDIR = ../../like-posix
+LIKEPOSIX_DIR = ../../like-posix
 ## be sure to include the other makefiles
-include $(STM32DEVSUPPORTDIR)/build-env/setup.mk
+include $(LIKEPOSIX_DIR)/build-env/setup.mk
 
 
 	

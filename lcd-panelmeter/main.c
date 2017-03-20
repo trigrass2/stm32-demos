@@ -8,7 +8,7 @@
 #include <pthread.h>
 
 #include "leds.h"
-#include "cutensils.h"
+#include "logger.h"
 
 #include "lcd.h"
 #include "lcd_backlight.h"

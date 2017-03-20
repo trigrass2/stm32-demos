@@ -11,5 +11,5 @@ USE_DRIVER_LEDS = 1
 USE_FULL_ASSERT = 0
 DEBUG_PRINTF_EXCEPTIONS = 0
 
-STM32DEVSUPPORTDIR = ../../like-posix
-include $(STM32DEVSUPPORTDIR)/build-env/setup.mk
+LIKEPOSIX_DIR = ../../like-posix
+include $(LIKEPOSIX_DIR)/build-env/setup.mk

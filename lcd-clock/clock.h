@@ -4,7 +4,7 @@
 #include "task.h"
 #include "queue.h"
 #include "text.h"
-#include "cutensils.h"
+#include "logger.h"
 
 #ifndef CLOCK_WIDGET_H_
 #define CLOCK_WIDGET_H_

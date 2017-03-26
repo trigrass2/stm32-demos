@@ -36,7 +36,7 @@ int main(void)
 	// init networking
 	net_config(&netconf, DEFAULT_RESOLV_CONF_PATH, DEFAULT_NETIF_CONF_PATH);
 	net_init(&netconf);
-	while(!wait_for_address(&netconf));
+	
 
 	log_info(&log, "device init done...");
 

@@ -71,7 +71,7 @@ int main(void)
 	// init networking
 	net_config(&netconf, DEFAULT_RESOLV_CONF_PATH, DEFAULT_NETIF_CONF_PATH);
 	net_init(&netconf);
-	while(!wait_for_address(&netconf));
+	
 
 	// sure the log directory exists
 	mkdir("/var", 0777);

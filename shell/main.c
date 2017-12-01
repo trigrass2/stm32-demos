@@ -77,7 +77,7 @@ int main(void)
 	install_os_cmds(&shell);
 	register_command(&shell, &sh_custom_cmd, NULL, NULL, NULL);
 
-	start_shell(&shell, NULL, DEFAULT_SHELL_CONFIG_PATH, true, true, -1, -1);
+	start_shell(&shell, NULL, DEFAULT_SHELL_CONFIG_PATH, true, true, -1, -1, 0);
 
 	log_info(&log, "service init done...");
 

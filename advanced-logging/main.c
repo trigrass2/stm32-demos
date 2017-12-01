@@ -102,7 +102,7 @@ int main(void)
 	install_net_cmds(&shell);
 	install_os_cmds(&shell);
 
-	if(start_shell(&shell, NULL, DEFAULT_SHELL_CONFIG_PATH, true, true, -1, -1) == -1)
+	if(start_shell(&shell, NULL, DEFAULT_SHELL_CONFIG_PATH, true, true, -1, -1, 0) == -1)
 	{
 		log_error(&log, "failed to start shell...");
 	}

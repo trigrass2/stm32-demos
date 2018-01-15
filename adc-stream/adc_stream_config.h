@@ -30,20 +30,12 @@
  *
  */
 
-/**
- * @addtogroup adc
- *
- * example ADC stream configuration file (place h file at project level)
- *
- * @file adc_stream_config.h
- * @{
- */
 
 #ifndef ADC_STREAM_CONFIG_H
 #define ADC_STREAM_CONFIG_H
 
 /**
- * number of channels, minimum of 2, and must be a power of 2
+ * number of channels. with adc stream drivers in dual mode, minimum is 2, and must be a power of 2
  */
 #define ADC_STREAM_CHANNEL_COUNT             2
 
@@ -70,44 +62,57 @@
 #define ADC_STREAM_DEFAULT_SAMPLERATE        48000
 
 /**
+ * default sample cycles count. use to control samplerate if ADC_STREAM_SR_TIMER_UNIT is set to 0.
+ */
+#define ADC_STREAM_ADC_CONVERSION_CYCLES   ADC_SAMPLETIME_28CYCLES
+
+/**
  * channels to use on the master ADC (ADC1).
  */
-#define ADC_STREAM_MASTER_ADC_CHANNELS     {ADC_CHANNEL_0}
+#define ADC_STREAM_MASTER_ADC_CHANNELS     {ADC_CHANNEL_0, ADC_CHANNEL_1} // {ADC_CHANNEL_0} // dual mode
+
 /**
- * channels to use on the slave ADC (ADC2).
+ * channels to use on the slave ADC (ADC2) (used only by adc stream drivers in dual mode)
  */
-#define ADC_STREAM_SLAVE_ADC_CHANNELS      {ADC_CHANNEL_1}
+#define ADC_STREAM_SLAVE_ADC_CHANNELS      {}// {ADC_CHANNEL_1} // dual mode
+
 /**
  * the GPIO ports where all the selected ADC channels appear on the chip.
  */
 #define ADC_STREAM_CHANNEL_PORTS           {GPIOA, GPIOA}
+
 /**
  * the GPIO pins (corresponding to the ports above) where all the selected ADC channels appear on the chip.
  */
 #define ADC_STREAM_CHANNEL_PINS            {GPIO_PIN_0,  GPIO_PIN_1}
+
 /**
  * the DMA interrupt priority.
  */
 #define ADC_STREAM_DMA_IRQ_PRIORITY         4
+
  /**
   * sets the input sample rate timer - can be 2, 3 or 4 to select
-  * TIM2, TIM3, TIM4 respectively.
+  * TIM2, TIM3, TIM4 respectively. set to 0 to make the ADC free-run at
+  * the speed set in ADC_STREAM_ADC_CONVERSION_CYCLES (sample rate setting is ignored,
+  * rate is determined by ADC_STREAM_ADC_CONVERSION_CYCLES alone).
   */
-#define ADC_STREAM_SR_TIMER_UNIT            2
+#define ADC_STREAM_SR_TIMER_UNIT            3
 
 /**
  * sets ADC data alignment, may be ADC_DATAALIGN_LEFT or ADC_DATAALIGN_RIGHT
  */
 #define ADC_STREAM_ALIGNMENT                ADC_DATAALIGN_LEFT
+
 /**
  * ADC stream thread priority - all ADC stream connections run sequentially inside this same thread.
  */
 #define ADC_STREAM_THREAD_PRIO              1
+
 /**
  * ADC stream thread stack size.
  */
 #define ADC_STREAM_THREAD_STACK_SIZE        128
+
 #endif // ADC_STREAM_CONFIG_H
-/**
- *
- */
+

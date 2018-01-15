@@ -40,7 +40,7 @@ int main(void)
     // start stream service
     adc_stream_init();
 	adc_stream_start();
-//	adc_stream_set_samplerate(2000);
+	adc_stream_set_samplerate(4000);
 
 	// start stream, client
 	stream_connection_t adc_stream_conn;

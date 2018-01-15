@@ -46,24 +46,20 @@
  * number of channels, minimum of 2, and must be a power of 2
  */
 #define ADC_STREAM_CHANNEL_COUNT             2
-
 /**
  * the number of samples in the sample buffer.
- * only half the length of this buffer is accessible in the stream callback function at a time.
- * dont use ADC_STREAM_BUFFER_LENGTH in the stream callback, use the length, channels and channel arguments to traverse the buffer.
+ * only half the lengtth of this buffer is accessible in the stream callback function at a time.
+ * dont use this in the stream callback, use the length, channels and channel arguments to traverse the buffer.
  */
 #define ADC_STREAM_BUFFER_LENGTH             512
-
 /**
  * the maximum number of connections allowed on the stream.
  */
 #define ADC_STREAM_MAX_CONNECTIONS           4
-
 /**
  * this is the value used when clearing the buffer.
  */
 #define ADC_STREAM_BUFFER_CLEAR_VALUE        0
-
 /**
  * default samplerate. the stream is initialised with this value.
  */
@@ -72,11 +68,11 @@
 /**
  * channels to use on the master ADC (ADC1).
  */
-#define ADC_STREAM_MASTER_ADC_CHANNELS     {ADC_CHANNEL_0}
+#define ADC_STREAM_MASTER_ADC_CHANNELS     {ADC_CHANNEL_0, ADC_CHANNEL_1}
 /**
  * channels to use on the slave ADC (ADC2).
  */
-#define ADC_STREAM_SLAVE_ADC_CHANNELS      {ADC_CHANNEL_1}
+#define ADC_STREAM_SLAVE_ADC_CHANNELS      {}
 /**
  * the GPIO ports where all the selected ADC channels appear on the chip.
  */

@@ -98,7 +98,7 @@ int main(void)
     register_command(&shell, &sh_custom_cmd, NULL, NULL, NULL);
     int fdes = open("/dev/ttyS0", O_RDWR);
 
-    start_shell(&shell, NULL, NULL, true, false, fdes, fdes, 0);
+	start_shell_threaded_instance(&shell, NULL, false, fdes, fdes, 512);
 
     log_info(&log, "service init done...");
 

@@ -135,7 +135,7 @@ int main(void)
     install_net_cmds(&sh);
     install_os_cmds(&sh);
 
-    if(start_shell(&sh, NULL, DEFAULT_SHELL_CONFIG_PATH, true, true, -1, -1, 0) == -1)
+    if(start_shell_threaded_server(&sh, NULL, DEFAULT_SHELL_CONFIG_PATH, true, -1, -1, 512) == -1)
         log_info(&mainlog, "shell init falied...");
 
     log_info(&mainlog, "service init done...");
